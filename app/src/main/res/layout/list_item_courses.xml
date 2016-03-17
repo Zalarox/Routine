@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:background="?android:attr/selectableItemBackground"
+    >
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview_title"
+        android:paddingBottom="10dp"
+        android:text="Android Development and Design"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview_modules"
+        android:layout_below="@id/textview_title"
+        android:paddingBottom="5dp"
+        android:text="2/5 Modules finished"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:paddingLeft="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textview_projects"
+        android:layout_below="@id/textview_title"
+        android:layout_alignParentRight="true"
+        android:text="2 Projects due"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp" />
+
+    <ProgressBar
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@id/textview_modules"
+        android:max="100"
+        android:progress="40" />
+
+</RelativeLayout>
