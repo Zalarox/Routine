@@ -2,8 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginRight="16dp"
-    android:layout_marginLeft="16dp"
     android:clickable="true"
     android:focusable="true"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
@@ -12,6 +10,8 @@
 
     <TextView
         android:layout_marginTop="5dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textview_title"
@@ -27,6 +27,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:id="@+id/textview_modules"
         android:layout_below="@id/textview_title"
         android:paddingBottom="5dp"
@@ -38,6 +40,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:id="@+id/textview_projects"
         android:layout_below="@id/textview_title"
         android:layout_alignParentRight="true"
@@ -50,6 +54,8 @@
     <ProgressBar
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:id="@+id/progress_bar"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_width="match_parent"
         android:layout_height="15dp"
         android:layout_below="@id/textview_modules"
