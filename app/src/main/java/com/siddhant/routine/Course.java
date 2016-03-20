@@ -1,14 +1,16 @@
 package com.siddhant.routine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Siddhant on 04-Mar-16.
  */
-public class Course {
+public class Course implements Serializable {
     private static final String DEFAULT_COURSE_NAME = "New Course";
     private static final int DEFAULT_COURSE_MODULES = 4;
     private String courseName;
+
     // recurrence days
     private float courseProgress;
     private ArrayList<Project> courseProjects;

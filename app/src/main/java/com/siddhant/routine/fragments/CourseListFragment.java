@@ -1,4 +1,4 @@
-package com.siddhant.routine;
+package com.siddhant.routine.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.siddhant.routine.Course;
+import com.siddhant.routine.CourseManager;
+import com.siddhant.routine.R;
+import com.siddhant.routine.activities.CourseActivity;
+
 /**
  * Created by Siddhant on 05-Mar-16.
  */
@@ -21,6 +26,7 @@ public class CourseListFragment extends Fragment {
     CourseManager cm;
 
     private class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        Course course;
         TextView title;
         TextView modules;
         TextView projects;
@@ -36,6 +42,7 @@ public class CourseListFragment extends Fragment {
         }
 
         public void bindCourse(Course course) {
+            this.course = course;
             title.setText(course.getCourseName());
             progressBar.setProgress((int) course.getCourseProgress());
         }
@@ -43,6 +50,7 @@ public class CourseListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent i = new Intent(getContext(), CourseActivity.class);
+            i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
             startActivity(i);
         }
     }

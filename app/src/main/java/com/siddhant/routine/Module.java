@@ -7,7 +7,8 @@ package com.siddhant.routine;
 public class Module {
     private int moduleNumber;
     private Course moduleCourse;
-    private int progress;
+    private int doneTopics;
+    private int totalTopics;
     private boolean isDone;
 
     public boolean isDone() {
@@ -19,11 +20,11 @@ public class Module {
     }
 
     public int getProgress() {
-        return progress;
+        return doneTopics;
     }
 
-    public void setProgress(int progress) {
-        this.progress = progress;
+    public void setProgress(int doneTopics) {
+        this.doneTopics = doneTopics;
     }
 
     public Course getModuleCourse() {

@@ -39,8 +39,8 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="80dp">
-
+            android:layout_height="80dp"
+            android:id="@+id/module_topic_list_view">
         </ListView>
 
         <ProgressBar
