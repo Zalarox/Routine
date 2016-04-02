@@ -11,6 +11,11 @@ public class Module {
     private int totalTopics;
     private boolean isDone;
 
+    public Module(int moduleNumber, Course moduleCourse) {
+        this.moduleNumber = moduleNumber;
+        this.moduleCourse = moduleCourse;
+    }
+
     public boolean isDone() {
         return isDone;
     }

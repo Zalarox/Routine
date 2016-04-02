@@ -51,10 +51,14 @@ public class CourseListFragment extends Fragment {
         public void onClick(View v) {
             Intent i = new Intent(getContext(), CourseActivity.class);
             i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
-            startActivity(i);
+            startActivityForResult(i, 0);
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Nullable
     @Override
@@ -73,7 +77,6 @@ public class CourseListFragment extends Fragment {
             public void onClick(View view) {
                 Course c = new Course();
                 cm.addCourse(c);
-                // start new course add activity here
                 Intent i = new Intent(getContext(), CourseActivity.class);
                 startActivity(i);
             }

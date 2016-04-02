@@ -16,5 +16,8 @@
     <string name="title_activity_course">Course Information</string>
 
     <string name="EXTRA_COURSE_OBJECT">com.me.extra.MY_NAME</string>
+    <string name="action_edit">Edit Course</string>
+    <string name="action_clear">Delete all courses</string>
+    <string name="action_delete">Delete course</string>
 
 </resources>

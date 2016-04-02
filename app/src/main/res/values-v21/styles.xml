@@ -1,4 +1,4 @@
-<resources>>
+<resources>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -6,4 +6,15 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="ActionBarNoElevation" parent="AppTheme">
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppThemeNoElevation" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/ActionBarNoElevation</item>
+    </style>
+
 </resources>

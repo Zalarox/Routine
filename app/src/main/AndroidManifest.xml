@@ -21,7 +21,7 @@
         <activity
             android:name=".activities.CourseActivity"
             android:label="@string/title_activity_course"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppThemeNoElevation">
         </activity>
     </application>
 
