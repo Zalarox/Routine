@@ -7,10 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.siddhant.routine.Course;
 import com.siddhant.routine.Module;
@@ -33,22 +34,34 @@ public class CourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
 
-        TextView titleTextView = (TextView) findViewById(R.id.activity_course_edit_text_title);
-
-        ListView listView = (ListView) findViewById(R.id.module_topic_list_view);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1); // TODO fix this constructor call
-        //listView.setAdapter(adapter);
-        modulesHolder = (LinearLayout) findViewById(R.id.course_module_card_holder);
-        
         course = (Course) getIntent().getSerializableExtra(getString(R.string.EXTRA_COURSE_OBJECT));
-        titleTextView.setText(course.getCourseName());
-        createModuleCard(1);
+
+        moduleList = course.getCourseModules();
+        modulesHolder = (LinearLayout) findViewById(R.id.course_module_card_holder);
+
+        if(!moduleList.isEmpty())
+            for(Module module : moduleList) {
+                createModuleCard(module);
+            }
+
     }
 
-    void createModuleCard(int moduleNumber) {
-        Module m = new Module(moduleNumber, course);
+    void createModuleCard(Module module) {
         LayoutInflater inflater = getLayoutInflater();
         inflater.inflate(R.layout.card_module_view, modulesHolder);
+
+        ListView listView = (ListView) findViewById(R.id.module_topic_list_view);
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+                                                                    module.getTopics());
+        listView.setAdapter(adapter);
+
+        Button updateButton = (Button) findViewById(R.id.module_update_button);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // topic management dialog here
+            }
+        });
     }
 
     @Override

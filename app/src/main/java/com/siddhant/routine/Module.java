@@ -1,43 +1,98 @@
 package com.siddhant.routine;
 
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 /**
  * Created by Siddhant on 04-Mar-16.
  */
 public class Module {
     private int moduleNumber;
-    private Course moduleCourse;
+    private UUID courseId;
     private int doneTopics;
     private int totalTopics;
-    private boolean isDone;
+    private boolean moduleIsDone;
+    private float progress;
 
-    public Module(int moduleNumber, Course moduleCourse) {
+    private class Topic {
+        int done;
+        String name;
+
+        public Topic(String name) {
+            this.name = name;
+            done = 0;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void toggleDone() {
+            if(done == 0) {
+                done = 1;
+                doneTopics++;
+
+                if(doneTopics == totalTopics) moduleIsDone = true;
+                else moduleIsDone = false;
+            }
+            else {
+                done = 0;
+                doneTopics--;
+            }
+
+            updateValues();
+        }
+    }
+
+    public ArrayList<Topic> topics;
+
+    public Module(int moduleNumber, UUID courseId) {
         this.moduleNumber = moduleNumber;
-        this.moduleCourse = moduleCourse;
+        this.courseId = courseId;
     }
 
-    public boolean isDone() {
-        return isDone;
+    public void addTopic(String name) {
+        Topic topic = new Topic(name);
+        topics.add(topic);
+        totalTopics++;
     }
 
-    public void setIsDone(boolean isDone) {
-        this.isDone = isDone;
+    public void removeTopic(String name) {
+        for(Topic t : topics) {
+            if(t.getName().equals(name)) {
+                topics.remove(t);
+            }
+        }
+        totalTopics--;
     }
 
-    public int getProgress() {
-        return doneTopics;
+    public ArrayList<Topic> getTopics() {
+        return topics;
     }
 
-    public void setProgress(int doneTopics) {
-        this.doneTopics = doneTopics;
+    public void updateValues() {
+        progress = (doneTopics/totalTopics)*100;
     }
 
-    public Course getModuleCourse() {
-        return moduleCourse;
+    public boolean isModuleDone() {
+        return moduleIsDone;
     }
 
-    public void setModuleCourse(Course moduleCourse) {
-        this.moduleCourse = moduleCourse;
+    public float getProgress() {
+        return progress;
+    }
+
+    public UUID getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(UUID courseId) {
+        this.courseId = courseId;
     }
 
     public int getModuleNumber() {

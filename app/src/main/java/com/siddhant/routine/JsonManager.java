@@ -78,7 +78,6 @@ public class JsonManager {
                 writer.close();
             }
         }
-
     }
 
 }
