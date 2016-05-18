@@ -30,15 +30,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Topics 2/5"
+            android:text="@string/module_topics"
             android:paddingBottom="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             />
 
+        <TextView
+            android:id="@+id/module_has_no_topics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@android:color/darker_gray"
+            android:text="No topics here. Add some!"/>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="120dp"
+            android:visibility="gone"
             android:id="@+id/module_topic_list_view" />
 
         <ProgressBar

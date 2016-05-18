@@ -24,17 +24,23 @@ public class Course implements Serializable {
 
     // Constructors
 
-    public Course(String courseName, float courseProgress, int doneModules) {
-        this.courseId = UUID.randomUUID();
-        this.courseName = courseName;
-        this.courseProgress = courseProgress;
-        this.doneModules = doneModules;
-    }
+//    public Course(String courseName, float courseProgress, int doneModules) {
+//        this.courseId = UUID.randomUUID();
+//        this.courseName = courseName;
+//        this.courseProgress = courseProgress;
+//        this.doneModules = doneModules;
+//        courseModules = new ArrayList<>();
+//        for(int i=0; i<DEFAULT_COURSE_MODULES; i++) {
+//            courseModules.add(new Module(i, courseId));
+//        }
+//    }
 
     public Course() {
         this.courseId = UUID.randomUUID();
         this.courseName = DEFAULT_COURSE_NAME;
         this.totalModules = DEFAULT_COURSE_MODULES;
+        courseModules = new ArrayList<>();
+
         for(int i=0; i<DEFAULT_COURSE_MODULES; i++) {
             courseModules.add(new Module(i, courseId));
         }

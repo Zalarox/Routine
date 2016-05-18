@@ -1,13 +1,14 @@
 package com.siddhant.routine;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  * Created by Siddhant on 04-Mar-16.
  */
-public class Module {
+public class Module implements Serializable {
     private int moduleNumber;
     private UUID courseId;
     private int doneTopics;
@@ -15,7 +16,7 @@ public class Module {
     private boolean moduleIsDone;
     private float progress;
 
-    private class Topic {
+    private class Topic implements Serializable {
         int done;
         String name;
 
@@ -54,6 +55,7 @@ public class Module {
     public Module(int moduleNumber, UUID courseId) {
         this.moduleNumber = moduleNumber;
         this.courseId = courseId;
+        topics = new ArrayList<>();
     }
 
     public void addTopic(String name) {

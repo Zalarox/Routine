@@ -19,7 +19,7 @@ public class CourseManager {
         // Dummy Data code
         courseList = new ArrayList<Course>();
         for(int i=0; i<10; i++) {
-            courseList.add(new Course(("My Course " + i), (10 + i*10), 4));
+            courseList.add(new Course());
         }
     }
 
