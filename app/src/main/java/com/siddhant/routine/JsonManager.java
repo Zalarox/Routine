@@ -30,7 +30,7 @@ public class JsonManager {
     }
 
     public ArrayList<Course> loadCourses() throws IOException {
-        ArrayList<Course> courseList = new ArrayList<Course>();
+        ArrayList<Course> courseList = new ArrayList<>();
         BufferedReader reader = null;
         try {
             InputStream in = context.openFileInput(fileName);

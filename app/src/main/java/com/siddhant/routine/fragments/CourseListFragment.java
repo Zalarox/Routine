@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,6 +25,9 @@ import com.siddhant.routine.activities.CourseActivity;
 public class CourseListFragment extends Fragment {
 
     CourseManager cm;
+    CourseListAdapter recyclerViewAdapter;
+    RecyclerView recyclerView;
+    ImageView noDataMessage;
 
     private class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Course course;
@@ -55,10 +59,27 @@ public class CourseListFragment extends Fragment {
         }
     }
 
+    // End of private class
+
+    private void updateListData() {
+        recyclerViewAdapter.notifyDataSetChanged();
+        if(cm.getSize() == 0) {
+            noDataMessage.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            noDataMessage.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        cm.saveData();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        // super.onActivityResult(requestCode, resultCode, data); TODO REMOVE LATER
+        updateListData();
     }
+
+
 
     @Nullable
     @Override
@@ -67,20 +88,37 @@ public class CourseListFragment extends Fragment {
 
         cm = CourseManager.getInstance(getContext());
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new CourseListAdapter());
+        noDataMessage = (ImageView) v.findViewById(R.id.no_data_message);
+        recyclerViewAdapter = new CourseListAdapter();
 
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+        updateListData();
+
+        final FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Course c = new Course();
                 cm.addCourse(c);
                 Intent i = new Intent(getContext(), CourseActivity.class);
-                startActivity(i);
+                i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), c);
+                startActivityForResult(i, 0);
             }
         });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    fab.hide();
+                else if (dy < 0)
+                    fab.show();
+            }
+        });
+
         return v;
     }
 

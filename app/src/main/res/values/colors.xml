@@ -5,4 +5,5 @@
     <color name="colorAccent">#EA80FC</color>
     <color name="colorBackground">#424242</color>
     <color name="colorGreyHorizontalRule">#5be0e0e0</color>
+    <color name="navDrawerIconGray">#6e6e6e</color>
 </resources>

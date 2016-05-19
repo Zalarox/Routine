@@ -1,8 +1,10 @@
 package com.siddhant.routine.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.siddhant.routine.Course;
+import com.siddhant.routine.CourseManager;
 import com.siddhant.routine.Module;
 import com.siddhant.routine.R;
 import com.siddhant.routine.fragments.EditCourseDialogFragment;
@@ -29,6 +32,7 @@ public class CourseActivity extends AppCompatActivity {
     Course course;
     ArrayList<Module> moduleList;
     LinearLayout modulesHolder;
+    CourseManager cm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +47,10 @@ public class CourseActivity extends AppCompatActivity {
         moduleList = course.getCourseModules();
         modulesHolder = (LinearLayout) findViewById(R.id.course_module_card_holder);
 
-        if(!moduleList.isEmpty()) {
-            for (Module module : moduleList) {
-                createModuleCard(module);
-            }
+        for (Module module : moduleList) {
+            createModuleCard(module);
         }
+
     }
 
     void createModuleCard(Module module) {
@@ -105,6 +108,29 @@ public class CourseActivity extends AppCompatActivity {
             case R.id.menu_course_edit_button:
                 showEditCourseDialog();
                 return true;
+
+            case R.id.menu_course_delete_button:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Delete Course")
+                .setMessage("Are you sure you want to delete this course?")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        cm = CourseManager.getInstance(getApplicationContext());
+                        cm.deleteCourse(course.getCourseId());
+                        finish();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // no implementation required
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             default:
                 return super.onOptionsItemSelected(item);
         }

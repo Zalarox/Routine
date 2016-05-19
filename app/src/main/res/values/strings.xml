@@ -19,5 +19,6 @@
     <string name="action_clear">Delete all courses</string>
     <string name="action_delete">Delete course</string>
     <string name="module_topics">Topics %1$d/%2$d</string>
+    <string name="examinations">Examinations</string>
 
 </resources>

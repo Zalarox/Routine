@@ -48,7 +48,6 @@ public class ProjectListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list, container, false);
 
-
         // Dummy Data code
         projectList = new ArrayList<Project>();
         for(int i=0; i<10; i++) {
@@ -59,7 +58,7 @@ public class ProjectListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new ProjectListAdapter());
 
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,6 +66,17 @@ public class ProjectListFragment extends Fragment {
                         .setAction("Action", null).show();
             }
         });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    fab.hide();
+                else if (dy < 0)
+                    fab.show();
+            }
+        });
+
         return v;
     }
 
