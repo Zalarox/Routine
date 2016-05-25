@@ -1,7 +1,9 @@
-package com.siddhant.routine;
+package com.siddhant.routine.Utilities;
 
 import android.content.Context;
 import android.widget.Toast;
+
+import com.siddhant.routine.Classes.Course;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,14 +20,7 @@ public class CourseManager {
 
     private CourseManager(Context appContext) {
         this.appContext = appContext;
-        // load data or create new here...
-        jsonManager = new JsonManager(appContext, "routine-db");
-
-        // Dummy Data code
-        courseList = new ArrayList<Course>();
-        for(int i=0; i<3; i++) {
-            courseList.add(new Course());
-        }
+        jsonManager = new JsonManager(appContext, "routine-c-db");
     }
 
     public static CourseManager getInstance(Context c) {
@@ -58,17 +53,17 @@ public class CourseManager {
 
     public void saveData() {
         try {
-            jsonManager.saveCourses(courseList);
+            jsonManager.saveList(courseList);
         } catch (IOException e) {
-            Toast.makeText(appContext, "Error saving data...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(appContext, "Error saving course data...", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void loadData() {
         try {
-            courseList = jsonManager.loadCourses();
+            courseList = jsonManager.loadCourseList();
         } catch (IOException e) {
-            Toast.makeText(appContext, "Error loading data...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(appContext, "Error loading course data...", Toast.LENGTH_SHORT).show();
         }
     }
 }

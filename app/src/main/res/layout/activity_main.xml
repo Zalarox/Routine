@@ -42,10 +42,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_dashboard"
-        app:itemTextAppearance="@android:color/darker_gray"
+        app:itemBackground="@android:color/transparent"
         app:itemIconTint="@color/navDrawerIconGray"
         app:menu="@menu/activity_dashboard_drawer" />
-
-
 
 </android.support.v4.widget.DrawerLayout>

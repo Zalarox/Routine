@@ -1,4 +1,4 @@
-package com.siddhant.routine.fragments;
+package com.siddhant.routine.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,13 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.siddhant.routine.Course;
-import com.siddhant.routine.CourseManager;
+import com.siddhant.routine.Activities.CourseActivity;
+import com.siddhant.routine.Adapters.CourseListAdapter;
+import com.siddhant.routine.Classes.Course;
+import com.siddhant.routine.Utilities.CourseManager;
 import com.siddhant.routine.R;
-import com.siddhant.routine.activities.CourseActivity;
 
 /**
  * Created by Siddhant on 05-Mar-16.
@@ -28,38 +27,6 @@ public class CourseListFragment extends Fragment {
     CourseListAdapter recyclerViewAdapter;
     RecyclerView recyclerView;
     ImageView noDataMessage;
-
-    private class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        Course course;
-        TextView title;
-        TextView modules;
-        TextView projects;
-        ProgressBar progressBar;
-
-        public CourseViewHolder(View itemView) {
-            super(itemView);
-            title = (TextView) itemView.findViewById(R.id.textview_title);
-            modules = (TextView) itemView.findViewById(R.id.textview_modules);
-            projects = (TextView) itemView.findViewById(R.id.textview_projects);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.progress_bar);
-            itemView.setOnClickListener(this);
-        }
-
-        public void bindCourse(Course course) {
-            this.course = course;
-            title.setText(course.getCourseName());
-            progressBar.setProgress((int) course.getCourseProgress());
-        }
-
-        @Override
-        public void onClick(View v) {
-            Intent i = new Intent(getContext(), CourseActivity.class);
-            i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
-            startActivityForResult(i, 0);
-        }
-    }
-
-    // End of private class
 
     private void updateListData() {
         recyclerViewAdapter.notifyDataSetChanged();
@@ -74,12 +41,10 @@ public class CourseListFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // super.onActivityResult(requestCode, resultCode, data); TODO REMOVE LATER
+    public void onResume() {
+        super.onResume();
         updateListData();
     }
-
-
 
     @Nullable
     @Override
@@ -105,7 +70,7 @@ public class CourseListFragment extends Fragment {
                 cm.addCourse(c);
                 Intent i = new Intent(getContext(), CourseActivity.class);
                 i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), c);
-                startActivityForResult(i, 0);
+                startActivity(i);
             }
         });
 
@@ -120,26 +85,5 @@ public class CourseListFragment extends Fragment {
         });
 
         return v;
-    }
-
-    private class CourseListAdapter extends RecyclerView.Adapter<CourseViewHolder> {
-
-        @Override
-        public CourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item_courses, parent, false);
-            return new CourseViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(CourseViewHolder holder, int position) {
-            Course course = cm.getCourse(position);
-            holder.bindCourse(course);
-        }
-
-        @Override
-        public int getItemCount() {
-            return cm.getSize();
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.siddhant.routine;
+package com.siddhant.routine.Classes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,8 +10,6 @@ import java.util.UUID;
 public class Course implements Serializable {
 
     private static final String DEFAULT_COURSE_NAME = "New Course";
-    private static final int DEFAULT_COURSE_MODULES = 2;
-
     private UUID courseId;
     private String courseName;
     private float courseProgress;
@@ -24,26 +22,10 @@ public class Course implements Serializable {
 
     // Constructors
 
-//    public Course(String courseName, float courseProgress, int doneModules) {
-//        this.courseId = UUID.randomUUID();
-//        this.courseName = courseName;
-//        this.courseProgress = courseProgress;
-//        this.doneModules = doneModules;
-//        courseModules = new ArrayList<>();
-//        for(int i=0; i<DEFAULT_COURSE_MODULES; i++) {
-//            courseModules.add(new Module(i, courseId));
-//        }
-//    }
-
     public Course() {
         this.courseId = UUID.randomUUID();
         this.courseName = DEFAULT_COURSE_NAME;
-        this.totalModules = DEFAULT_COURSE_MODULES;
         courseModules = new ArrayList<>();
-
-        for(int i=0; i<DEFAULT_COURSE_MODULES; i++) {
-            courseModules.add(new Module(i, courseId));
-        }
     }
 
     // Getters and Setters
@@ -54,6 +36,16 @@ public class Course implements Serializable {
 
     public String getCourseName() {
         return courseName;
+    }
+
+    public void addModule(Module module) {
+        courseModules.add(module);
+        totalModules++;
+    }
+
+    public void removeModule(Module module) { // TODO make this work on UUID?
+        courseModules.remove(module);
+        totalModules--;
     }
 
     public void setCourseName(String courseName) {

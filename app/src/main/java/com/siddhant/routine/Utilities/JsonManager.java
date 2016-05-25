@@ -1,10 +1,12 @@
-package com.siddhant.routine;
+package com.siddhant.routine.Utilities;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.siddhant.routine.Classes.Course;
+import com.siddhant.routine.Classes.Project;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -29,21 +31,19 @@ public class JsonManager {
         this.context = context;
     }
 
-    public ArrayList<Course> loadCourses() throws IOException {
-        ArrayList<Course> courseList = new ArrayList<>();
+    public StringBuilder readFromFile() throws IOException {
         BufferedReader reader = null;
         try {
             InputStream in = context.openFileInput(fileName);
             reader = new BufferedReader(new InputStreamReader(in));
             StringBuilder jsonString = new StringBuilder();
-            String line = null;
+            String line;
 
             while((line = reader.readLine()) != null) {
                 jsonString.append(line);
             }
 
-            courseList = gson.fromJson(jsonString.toString(),
-                    new TypeToken<ArrayList<Course>>(){}.getType());
+            return jsonString;
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -54,14 +54,34 @@ public class JsonManager {
                 reader.close();
             }
         }
-
-        return courseList;
+        return null;
     }
 
-    public void saveCourses(ArrayList<Course> courseList) throws IOException {
+    public ArrayList<Course> loadCourseList() throws IOException {
+        ArrayList<Course> list;
+        StringBuilder jsonString = readFromFile();
+        if(jsonString != null) {
+            list = gson.fromJson(jsonString.toString(),
+                    new TypeToken<ArrayList<Course>>() {
+                    }.getType());
+        } else {
+            list = new ArrayList<>();
+        }
+        return list;
+    }
+
+    public ArrayList<Project> loadProjectList() throws IOException {
+        ArrayList<Project> list;
+        StringBuilder jsonString = readFromFile();
+        list = gson.fromJson(jsonString.toString(),
+                new TypeToken<ArrayList<Course>>(){}.getType());
+        return list;
+    }
+
+    public void saveList(ArrayList<?> courseList) throws IOException {
 
         String jsonString = gson.toJson(courseList,
-                                        new TypeToken<ArrayList<Course>>(){}.getType());
+                                        new TypeToken<ArrayList<?>>(){}.getType());
         Writer writer = null;
         try {
             OutputStream out = context.openFileOutput(fileName, Context.MODE_PRIVATE);

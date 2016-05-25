@@ -1,4 +1,4 @@
-package com.siddhant.routine.activities;
+package com.siddhant.routine.Activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,11 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.siddhant.routine.CourseManager;
+import com.siddhant.routine.Utilities.CourseManager;
 import com.siddhant.routine.R;
-import com.siddhant.routine.fragments.CourseListFragment;
-import com.siddhant.routine.fragments.DashboardFragment;
-import com.siddhant.routine.fragments.ProjectListFragment;
+import com.siddhant.routine.Fragments.CourseListFragment;
+import com.siddhant.routine.Fragments.DashboardFragment;
+import com.siddhant.routine.Fragments.ProjectListFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         cm = CourseManager.getInstance(getApplicationContext());
-        
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Dashboard");
+        toolbar.setTitle("Dashboard");
 
         Fragment f = new DashboardFragment();
         fm.beginTransaction().add(R.id.fragment_container, f).commit();
@@ -68,15 +68,15 @@ public class MainActivity extends AppCompatActivity
         switch(id) {
             case R.id.nav_dashboard:
                 f = new DashboardFragment();
-                getSupportActionBar().setTitle("Dashboard");
+                toolbar.setTitle("Dashboard");
                 break;
             case R.id.nav_courses:
                 f = new CourseListFragment();
-                getSupportActionBar().setTitle("Courses");
+                toolbar.setTitle("Courses");
                 break;
             case R.id.nav_projects:
                 f = new ProjectListFragment();
-                getSupportActionBar().setTitle("Projects");
+                toolbar.setTitle("Projects");
                 break;
             case R.id.nav_share:
 

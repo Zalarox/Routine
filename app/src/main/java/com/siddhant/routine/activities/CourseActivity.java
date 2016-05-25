@@ -1,26 +1,23 @@
-package com.siddhant.routine.activities;
+package com.siddhant.routine.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.siddhant.routine.Course;
-import com.siddhant.routine.CourseManager;
-import com.siddhant.routine.Module;
+import com.siddhant.routine.Classes.Course;
+import com.siddhant.routine.Utilities.CourseManager;
+import com.siddhant.routine.Classes.Module;
 import com.siddhant.routine.R;
-import com.siddhant.routine.fragments.EditCourseDialogFragment;
 
 import java.util.ArrayList;
 
@@ -59,11 +56,11 @@ public class CourseActivity extends AppCompatActivity {
         TextView noTopics = (TextView) findViewById(R.id.module_has_no_topics);
 
         ListView listView = (ListView) findViewById(R.id.module_topic_list_view);
-        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
-                                                                    module.getTopics());
-        listView.setAdapter(adapter);
+        // ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
+        //                                                             module.getTopics());
+        //listView.setAdapter(adapter);
 
-        if(module.getTopics().isEmpty()) {
+        if(module.getChildItemList().isEmpty()) {
             noTopics.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
             getResources().getString(R.string.module_topics, 0, 0);
@@ -83,30 +80,23 @@ public class CourseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Intent i = new Intent();
-        i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
-        setResult(RESULT_OK, i);
-    }
-
-    public void showEditCourseDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        EditCourseDialogFragment editDialog = new EditCourseDialogFragment();
-        editDialog.show(fm, "dialog_course_edit");
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.course_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_course_edit_button:
-                showEditCourseDialog();
+                Intent i = new Intent(getApplicationContext(), CourseEditActivity.class);
+                i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
+                startActivityForResult(i, 0);
                 return true;
 
             case R.id.menu_course_delete_button:
@@ -130,6 +120,11 @@ public class CourseActivity extends AppCompatActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                return true;
+
+            case android.R.id.home:
+                finish();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
