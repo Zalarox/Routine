@@ -10,7 +10,7 @@
         android:background="@color/colorPrimary">
 
         <TextView
-            android:id="@+id/activity_course_edit_text_title"
+            android:id="@+id/activity_course_title"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:paddingTop="8dp"

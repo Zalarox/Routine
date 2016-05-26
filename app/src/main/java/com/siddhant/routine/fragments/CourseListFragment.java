@@ -37,6 +37,11 @@ public class CourseListFragment extends Fragment {
             noDataMessage.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         cm.saveData();
     }
 
@@ -46,9 +51,15 @@ public class CourseListFragment extends Fragment {
         updateListData();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        updateListData();
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list, container, false);
 
         cm = CourseManager.getInstance(getContext());
@@ -70,7 +81,7 @@ public class CourseListFragment extends Fragment {
                 cm.addCourse(c);
                 Intent i = new Intent(getContext(), CourseActivity.class);
                 i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), c);
-                startActivity(i);
+                startActivityForResult(i, 0);
             }
         });
 

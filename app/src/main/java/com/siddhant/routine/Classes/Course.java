@@ -15,9 +15,6 @@ public class Course implements Serializable {
     private float courseProgress;
     private int totalModules;
     private int doneModules;
-
-    // TODO add recurrence days
-
     private ArrayList<Module> courseModules;
 
     // Constructors
@@ -66,6 +63,10 @@ public class Course implements Serializable {
 
     public void setTotalModules(int totalModules) {
         this.totalModules = totalModules;
+    }
+
+    public void setModuleList(ArrayList<Module> courseModules) {
+        this.courseModules = courseModules;
     }
 
     public int getDoneModules() {

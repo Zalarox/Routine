@@ -1,11 +1,12 @@
 package com.siddhant.routine.Classes;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Siddhant on 24-May-16.
  */
-public class Topic {
+public class Topic implements Serializable {
     private int topicId;
     private UUID moduleId;
     private String topicName;

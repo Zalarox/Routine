@@ -43,6 +43,19 @@ public class CourseManager {
         }
     }
 
+    public void updateCourse(UUID uuid, Course newCourse) {
+        for(Course course : courseList) {
+            if(course.getCourseId().equals(uuid)) {
+                course.setCourseName(newCourse.getCourseName());
+                course.setCourseProgress(newCourse.getCourseProgress());
+                course.setDoneModules(newCourse.getDoneModules());
+                course.setTotalModules(newCourse.getTotalModules());
+                course.setModuleList(newCourse.getCourseModules());
+                break;
+            }
+        }
+    }
+
     public Course getCourse(int position) {
         return courseList.get(position);
     }

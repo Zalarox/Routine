@@ -25,8 +25,8 @@ import java.util.ArrayList;
  * Created by Siddhant on 12-Mar-16.
  */
 public class CourseActivity extends AppCompatActivity {
-
     Course course;
+    TextView courseTitle;
     ArrayList<Module> moduleList;
     LinearLayout modulesHolder;
     CourseManager cm;
@@ -39,10 +39,12 @@ public class CourseActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        course = (Course) getIntent().getSerializableExtra(getString(R.string.EXTRA_COURSE_OBJECT));
-
-        moduleList = course.getCourseModules();
+        courseTitle = (TextView) findViewById(R.id.activity_course_title);
         modulesHolder = (LinearLayout) findViewById(R.id.course_module_card_holder);
+
+        course = (Course) getIntent().getSerializableExtra(getString(R.string.EXTRA_COURSE_OBJECT));
+        courseTitle.setText(course.getCourseName());
+        moduleList = course.getCourseModules();
 
         for (Module module : moduleList) {
             createModuleCard(module);
@@ -88,6 +90,11 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        course = (Course) data.getSerializableExtra(getString(R.string.EXTRA_COURSE_OBJECT));
+        cm = CourseManager.getInstance(getApplicationContext());
+        cm.updateCourse(course.getCourseId(), course);
+        courseTitle.setText(course.getCourseName());
+        moduleList = course.getCourseModules();
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.siddhant.routine.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +15,6 @@ import com.siddhant.routine.Adapters.ModuleExpandableListAdapter;
 import com.siddhant.routine.Classes.Course;
 import com.siddhant.routine.Classes.Module;
 import com.siddhant.routine.R;
-import com.siddhant.routine.Utilities.CourseManager;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 public class CourseEditActivity extends AppCompatActivity {
 
     Course course;
-    CourseManager cm;
     EditText courseName;
     EditText numberOfModules;
     Button plusButton;
@@ -43,10 +43,35 @@ public class CourseEditActivity extends AppCompatActivity {
         adapter.notifyParentItemInserted(course.getCourseModules().size()-1);
     }
 
+    private void doBackActions() {
+        course.setCourseName(courseName.getText().toString());
+        Intent i = new Intent();
+        i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
+        setResult(0, i);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        doBackActions();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                doBackActions();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_edit);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         courseName = (EditText) findViewById(R.id.edit_course_course_name);
         plusButton = (Button) findViewById(R.id.edit_course_plus_button);
@@ -54,7 +79,6 @@ public class CourseEditActivity extends AppCompatActivity {
 
         course = (Course) getIntent().getSerializableExtra
                 (getString(R.string.EXTRA_COURSE_OBJECT));
-        cm = CourseManager.getInstance(getApplicationContext());
 
         moduleList = course.getCourseModules();
 
@@ -69,6 +93,7 @@ public class CourseEditActivity extends AppCompatActivity {
             }
         });
 
+        courseName.setText(course.getCourseName());
         courseName.requestFocus();
     }
 
