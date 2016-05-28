@@ -13,34 +13,25 @@ import android.widget.EditText;
 
 import com.siddhant.routine.Adapters.ModuleExpandableListAdapter;
 import com.siddhant.routine.Classes.Course;
-import com.siddhant.routine.Classes.Module;
 import com.siddhant.routine.R;
 
-import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by Siddhant on 20-May-16.
  */
-public class CourseEditActivity extends AppCompatActivity {
+public class Context extends AppCompatActivity implements View.OnClickListener {
 
     Course course;
+    UUID courseId;
     EditText courseName;
     EditText numberOfModules;
     Button plusButton;
     RecyclerView expandableListView;
     ModuleExpandableListAdapter adapter;
-    ArrayList<Module> moduleList;
 
     public static int clamp(float val, float min, float max) {
         return (int) Math.max(min, Math.min(max, val));
-    }
-
-    private void addNewModule() {
-        Module m = new Module(course.getCourseId());
-        m.addTopic("test", true);
-        m.addTopic("test", false);
-        course.addModule(m);
-        adapter.notifyParentItemInserted(course.getCourseModules().size()-1);
     }
 
     private void doBackActions() {
@@ -79,22 +70,30 @@ public class CourseEditActivity extends AppCompatActivity {
 
         course = (Course) getIntent().getSerializableExtra
                 (getString(R.string.EXTRA_COURSE_OBJECT));
+        courseId = course.getCourseId();
 
-        moduleList = course.getCourseModules();
-
-        adapter = new ModuleExpandableListAdapter(this, moduleList);
+        adapter = new ModuleExpandableListAdapter(this, course.getCourseModules());
         expandableListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         expandableListView.setAdapter(adapter);
 
-        plusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNewModule();
-            }
-        });
+        plusButton.setOnClickListener(this);
 
         courseName.setText(course.getCourseName());
         courseName.requestFocus();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.edit_course_plus_button:
+                adapter.addNewModule(courseId);
+                expandableListView.scrollToPosition(course.getCourseModules().size()-1);
+                break;
+
+            case R.id.expandable_list_module_delete:
+                break;
+
+            default: break;
+        }
+    }
 }

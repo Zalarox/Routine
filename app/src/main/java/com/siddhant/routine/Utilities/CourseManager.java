@@ -60,6 +60,15 @@ public class CourseManager {
         return courseList.get(position);
     }
 
+    public Course getCourse(UUID uuid) {
+        for(Course course : courseList) {
+            if(course.getCourseId().equals(uuid)) {
+                return course;
+            }
+        }
+        return null;
+    }
+
     public int getSize() {
         return courseList.size();
     }
