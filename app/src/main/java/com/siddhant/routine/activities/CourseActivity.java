@@ -101,7 +101,7 @@ public class CourseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_course_edit_button:
-                Intent i = new Intent(getApplicationContext(), Context.class);
+                Intent i = new Intent(getApplicationContext(), CourseEditActivity.class);
                 i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
                 startActivityForResult(i, 0);
                 return true;

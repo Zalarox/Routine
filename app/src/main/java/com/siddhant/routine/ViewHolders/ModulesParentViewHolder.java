@@ -30,7 +30,8 @@ public class ModulesParentViewHolder extends ParentViewHolder {
         });
     }
 
-    public void bind(Module module, int position) {
-        groupTitle.setText("Module " + (position+1));
+    public void bind(Module module, int size) {
+
+        groupTitle.setText("Module " + size);
     }
 }

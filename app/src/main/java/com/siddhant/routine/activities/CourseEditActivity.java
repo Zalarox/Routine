@@ -20,12 +20,11 @@ import java.util.UUID;
 /**
  * Created by Siddhant on 20-May-16.
  */
-public class Context extends AppCompatActivity implements View.OnClickListener {
+public class CourseEditActivity extends AppCompatActivity implements View.OnClickListener {
 
     Course course;
     UUID courseId;
     EditText courseName;
-    EditText numberOfModules;
     Button plusButton;
     RecyclerView expandableListView;
     ModuleExpandableListAdapter adapter;

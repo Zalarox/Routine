@@ -7,20 +7,13 @@ import java.util.UUID;
  * Created by Siddhant on 24-May-16.
  */
 public class Topic implements Serializable {
-    private int topicId;
     private UUID moduleId;
     private String topicName;
     private boolean isTopicDone;
 
-    public Topic(UUID moduleId, String topicName) {
+    public Topic(UUID moduleId) {
         this.moduleId = moduleId;
-        this.topicName = topicName;
-    }
-
-    public Topic(UUID moduleId, String topicName, boolean isTopicDone) {
-        this.moduleId = moduleId;
-        this.topicName = topicName;
-        this.isTopicDone = isTopicDone;
+        this.topicName = "";
     }
 
     public String getTopicName() {
@@ -29,6 +22,16 @@ public class Topic implements Serializable {
 
     public boolean isTopicDone() {
         return isTopicDone;
+    }
+
+    public UUID getModuleId() { return moduleId; }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    public void setTopicDone(boolean isTopicDone) {
+        this.isTopicDone = isTopicDone;
     }
 
 }

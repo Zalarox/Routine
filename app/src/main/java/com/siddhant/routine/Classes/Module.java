@@ -16,7 +16,6 @@ public class Module implements Serializable, ParentListItem {
     private UUID moduleId;
     private UUID courseId;
     private int doneTopics;
-    private int totalTopics;
     private boolean moduleIsDone;
     private float progress;
     private ArrayList<Topic> topics;
@@ -27,19 +26,17 @@ public class Module implements Serializable, ParentListItem {
         topics = new ArrayList<>();
     }
 
-    public void addTopic(String name, boolean isDone) {
-        Topic topic = new Topic(moduleId, name, isDone);
+    public void addTopic() {
+        Topic topic = new Topic(moduleId);
         topics.add(topic);
-        totalTopics++;
     }
 
     public void removeTopic(int index) {
         topics.remove(index);
-        totalTopics--;
     }
 
     public void updateValues() {
-        progress = (doneTopics/totalTopics)*100;
+        progress = (doneTopics/topics.size())*100;
     }
 
     public boolean isModuleDone() {

@@ -35,16 +35,6 @@ public class Course implements Serializable {
         return courseName;
     }
 
-    public void addModule(Module module) {
-        courseModules.add(module);
-        totalModules++;
-    }
-
-    public void removeModule(Module module) { // TODO make this work on UUID?
-        courseModules.remove(module);
-        totalModules--;
-    }
-
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }

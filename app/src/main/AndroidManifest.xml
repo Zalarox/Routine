@@ -22,7 +22,7 @@
             android:theme="@style/AppThemeNoElevation">
         </activity>
         <activity
-            android:name=".Activities.Context"
+            android:name=".Activities.CourseEditActivity"
             android:parentActivityName=".Activities.CourseActivity"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppThemeNoElevation">

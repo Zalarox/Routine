@@ -1,5 +1,6 @@
 package com.siddhant.routine.Adapters;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
-import com.siddhant.routine.Activities.Context;
 import com.siddhant.routine.Classes.Module;
 import com.siddhant.routine.Classes.Topic;
 import com.siddhant.routine.R;
@@ -30,8 +30,7 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
 
     public void addNewModule(UUID uuid) {
         Module m = new Module(uuid);
-        m.addTopic("test", true);
-        m.addTopic("test", false);
+        m.addTopic();
         moduleList.add(m);
         notifyParentItemInserted(moduleList.size()-1);
     }
@@ -40,6 +39,25 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
         moduleList.remove(position);
         notifyParentItemRemoved(position);
         notifyItemRangeChanged(position, moduleList.size());
+    }
+
+    public void addTopicChild(UUID moduleId, int position) {
+        for(Module m : moduleList) {
+            if(m.getModuleId().equals(moduleId)) {
+                m.addTopic();
+                notifyChildItemInserted(moduleList.indexOf(m), position);
+                break;
+            }
+        }
+    }
+
+    public void removeTopicChild(UUID moduleId, int position) {
+        for(Module m : moduleList) {
+            if(m.getModuleId().equals(moduleId)) {
+                m.removeTopic(position);
+                notifyChildItemRemoved(moduleList.indexOf(m), position);
+            }
+        }
     }
 
     public ModuleExpandableListAdapter(Context context,
@@ -59,13 +77,13 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
     @Override
     public ModulesChildViewHolder onCreateChildViewHolder(ViewGroup childViewGroup) {
         View moduleView = inflater.inflate(R.layout.expandable_list_item_child, childViewGroup, false);
-        return new ModulesChildViewHolder(moduleView);
+        return new ModulesChildViewHolder(this, moduleView);
     }
 
     @Override
     public void onBindParentViewHolder(ModulesParentViewHolder parentViewHolder, int position, ParentListItem parentListItem) {
         Module module = (Module) parentListItem;
-        parentViewHolder.bind(module, position);
+        parentViewHolder.bind(module, moduleList.size());
     }
 
     @Override
