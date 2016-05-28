@@ -16,10 +16,12 @@ import com.siddhant.routine.R;
  */
 public class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     Course course;
+
     TextView title;
     TextView modules;
     TextView projects;
     ProgressBar progressBar;
+
     Context context;
 
     public CourseViewHolder(Context context, View itemView) {
@@ -42,7 +44,7 @@ public class CourseViewHolder extends RecyclerView.ViewHolder implements View.On
     @Override
     public void onClick(View v) {
         Intent i = new Intent(context, CourseActivity.class);
-        i.putExtra(context.getString(R.string.EXTRA_COURSE_OBJECT), course);
+        i.putExtra(context.getString(R.string.EXTRA_COURSE_UUID), course.getCourseId().toString());
         context.startActivity(i);
     }
 }

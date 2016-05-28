@@ -15,11 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.siddhant.routine.Classes.Course;
-import com.siddhant.routine.Utilities.CourseManager;
 import com.siddhant.routine.Classes.Module;
 import com.siddhant.routine.R;
+import com.siddhant.routine.Utilities.CourseManager;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by Siddhant on 12-Mar-16.
@@ -42,14 +43,16 @@ public class CourseActivity extends AppCompatActivity {
         courseTitle = (TextView) findViewById(R.id.activity_course_title);
         modulesHolder = (LinearLayout) findViewById(R.id.course_module_card_holder);
 
-        course = (Course) getIntent().getSerializableExtra(getString(R.string.EXTRA_COURSE_OBJECT));
+        cm = CourseManager.getInstance(getApplicationContext());
+        String courseIdString = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
+        UUID courseId = UUID.fromString(courseIdString);
+
+        course = cm.getCourse(courseId);
         courseTitle.setText(course.getCourseName());
         moduleList = course.getCourseModules();
-
         for (Module module : moduleList) {
             createModuleCard(module);
         }
-
     }
 
     void createModuleCard(Module module) {
@@ -88,42 +91,32 @@ public class CourseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        course = (Course) data.getSerializableExtra(getString(R.string.EXTRA_COURSE_OBJECT));
-        cm = CourseManager.getInstance(getApplicationContext());
-        cm.updateCourse(course.getCourseId(), course);
-        courseTitle.setText(course.getCourseName());
-        moduleList = course.getCourseModules();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.menu_course_edit_button:
                 Intent i = new Intent(getApplicationContext(), CourseEditActivity.class);
-                i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
+                i.putExtra(getString(R.string.EXTRA_COURSE_UUID), course.getCourseId().toString());
                 startActivityForResult(i, 0);
                 return true;
 
             case R.id.menu_course_delete_button:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Delete Course")
-                .setMessage("Are you sure you want to delete this course?")
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        cm = CourseManager.getInstance(getApplicationContext());
-                        cm.deleteCourse(course.getCourseId());
-                        finish();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // no implementation required
-                    }
-                });
+                        .setMessage("Are you sure you want to delete this course?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                cm = CourseManager.getInstance(getApplicationContext());
+                                cm.deleteCourse(course.getCourseId());
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // no implementation required
+                            }
+                        });
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
@@ -137,4 +130,15 @@ public class CourseActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String courseIdString = data.getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
+        cm = CourseManager.getInstance(getApplicationContext());
+        course = cm.getCourse(UUID.fromString(courseIdString));
+        cm.updateCourse(course.getCourseId(), course);
+        courseTitle.setText(course.getCourseName());
+        moduleList = course.getCourseModules();
+    }
+
+
 }

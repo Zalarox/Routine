@@ -51,11 +51,6 @@ public class CourseListFragment extends Fragment {
         updateListData();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        updateListData();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,8 +75,8 @@ public class CourseListFragment extends Fragment {
                 Course c = new Course();
                 cm.addCourse(c);
                 Intent i = new Intent(getContext(), CourseActivity.class);
-                i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), c);
-                startActivityForResult(i, 0);
+                i.putExtra(getString(R.string.EXTRA_COURSE_UUID), c.getCourseId().toString());
+                startActivity(i);
             }
         });
 

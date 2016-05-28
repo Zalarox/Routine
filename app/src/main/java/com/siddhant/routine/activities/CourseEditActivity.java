@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.siddhant.routine.Adapters.ModuleExpandableListAdapter;
 import com.siddhant.routine.Classes.Course;
 import com.siddhant.routine.R;
+import com.siddhant.routine.Utilities.CourseManager;
 
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ import java.util.UUID;
  * Created by Siddhant on 20-May-16.
  */
 public class CourseEditActivity extends AppCompatActivity implements View.OnClickListener {
-
+    CourseManager cm;
     Course course;
     UUID courseId;
     EditText courseName;
@@ -36,7 +37,7 @@ public class CourseEditActivity extends AppCompatActivity implements View.OnClic
     private void doBackActions() {
         course.setCourseName(courseName.getText().toString());
         Intent i = new Intent();
-        i.putExtra(getString(R.string.EXTRA_COURSE_OBJECT), course);
+        i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId.toString());
         setResult(0, i);
         finish();
     }
@@ -67,9 +68,10 @@ public class CourseEditActivity extends AppCompatActivity implements View.OnClic
         plusButton = (Button) findViewById(R.id.edit_course_plus_button);
         expandableListView = (RecyclerView) findViewById(R.id.course_edit_module_list);
 
-        course = (Course) getIntent().getSerializableExtra
-                (getString(R.string.EXTRA_COURSE_OBJECT));
-        courseId = course.getCourseId();
+        String courseIdString = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
+        courseId = UUID.fromString(courseIdString);
+        cm = CourseManager.getInstance(getApplicationContext());
+        course = cm.getCourse(courseId);
 
         adapter = new ModuleExpandableListAdapter(this, course.getCourseModules());
         expandableListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
