@@ -31,6 +31,7 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
     public void addNewModule(UUID uuid) {
         Module m = new Module(uuid);
         m.addTopic();
+        m.updateValues();
         moduleList.add(m);
         notifyParentItemInserted(moduleList.size()-1);
     }
@@ -45,6 +46,7 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
         for(Module m : moduleList) {
             if(m.getModuleId().equals(moduleId)) {
                 m.addTopic();
+                m.updateValues();
                 notifyChildItemInserted(moduleList.indexOf(m), position);
                 break;
             }
@@ -55,6 +57,7 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
         for(Module m : moduleList) {
             if(m.getModuleId().equals(moduleId)) {
                 m.removeTopic(position);
+                m.updateValues();
                 notifyChildItemRemoved(moduleList.indexOf(m), position);
             }
         }
@@ -83,7 +86,7 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
     @Override
     public void onBindParentViewHolder(ModulesParentViewHolder parentViewHolder, int position, ParentListItem parentListItem) {
         Module module = (Module) parentListItem;
-        parentViewHolder.bind(module, moduleList.size());
+        parentViewHolder.bind(module);
     }
 
     @Override

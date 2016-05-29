@@ -16,7 +16,6 @@ import com.siddhant.routine.R;
  */
 public class CourseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     Course course;
-
     TextView title;
     TextView modules;
     TextView projects;

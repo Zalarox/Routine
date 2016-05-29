@@ -43,10 +43,6 @@ public class Course implements Serializable {
         return courseProgress;
     }
 
-    public void setCourseProgress(float courseProgress) {
-        this.courseProgress = courseProgress;
-    }
-
     public int getTotalModules() {
         return totalModules;
     }
@@ -69,5 +65,11 @@ public class Course implements Serializable {
 
     public ArrayList<Module> getCourseModules() {
         return courseModules;
+    }
+
+    public void updateProgress() {
+        if(totalModules != 0) {
+            courseProgress = (doneModules / totalModules) * 100;
+        }
     }
 }

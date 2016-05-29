@@ -5,15 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.siddhant.routine.Adapters.ModuleCardListAdapter;
 import com.siddhant.routine.Classes.Course;
 import com.siddhant.routine.Classes.Module;
 import com.siddhant.routine.R;
@@ -29,7 +27,8 @@ public class CourseActivity extends AppCompatActivity {
     Course course;
     TextView courseTitle;
     ArrayList<Module> moduleList;
-    LinearLayout modulesHolder;
+    RecyclerView moduleCardList;
+    ModuleCardListAdapter adapter;
     CourseManager cm;
 
     @Override
@@ -41,47 +40,18 @@ public class CourseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         courseTitle = (TextView) findViewById(R.id.activity_course_title);
-        modulesHolder = (LinearLayout) findViewById(R.id.course_module_card_holder);
-
         cm = CourseManager.getInstance(getApplicationContext());
         String courseIdString = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
         UUID courseId = UUID.fromString(courseIdString);
 
         course = cm.getCourse(courseId);
         courseTitle.setText(course.getCourseName());
+
         moduleList = course.getCourseModules();
-        for (Module module : moduleList) {
-            createModuleCard(module);
-        }
-    }
-
-    void createModuleCard(Module module) {
-        LayoutInflater inflater = getLayoutInflater();
-        inflater.inflate(R.layout.card_module_view, modulesHolder);
-        TextView noTopics = (TextView) findViewById(R.id.module_has_no_topics);
-
-        ListView listView = (ListView) findViewById(R.id.module_topic_list_view);
-        // ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
-        //                                                             module.getTopics());
-        //listView.setAdapter(adapter);
-
-        if(module.getChildItemList().isEmpty()) {
-            noTopics.setVisibility(View.VISIBLE);
-            listView.setVisibility(View.GONE);
-            getResources().getString(R.string.module_topics, 0, 0);
-        } else {
-            noTopics.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
-            getResources().getString(R.string.module_topics, 0, 0); //TODO add format topics
-        }
-
-        Button updateButton = (Button) findViewById(R.id.module_update_button);
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // topic management dialog here
-            }
-        });
+        moduleCardList = (RecyclerView) findViewById(R.id.course_activity_module_list);
+        moduleCardList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new ModuleCardListAdapter(moduleList);
+        moduleCardList.setAdapter(adapter);
     }
 
     @Override
@@ -130,6 +100,7 @@ public class CourseActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String courseIdString = data.getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
@@ -139,6 +110,4 @@ public class CourseActivity extends AppCompatActivity {
         courseTitle.setText(course.getCourseName());
         moduleList = course.getCourseModules();
     }
-
-
 }

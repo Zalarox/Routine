@@ -36,7 +36,18 @@ public class Module implements Serializable, ParentListItem {
     }
 
     public void updateValues() {
+        doneTopics = 0;
+        for(Topic topic : topics) {
+            if(topic.isTopicDone()) {
+                doneTopics++;
+            }
+        }
         progress = (doneTopics/topics.size())*100;
+        if(progress == 100) {
+            moduleIsDone = true;
+        } else {
+            moduleIsDone = false;
+        }
     }
 
     public boolean isModuleDone() {
@@ -45,6 +56,10 @@ public class Module implements Serializable, ParentListItem {
 
     public float getProgress() {
         return progress;
+    }
+
+    public int getDoneTopics() {
+        return doneTopics;
     }
 
     public UUID getCourseId() {

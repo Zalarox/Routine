@@ -2,6 +2,7 @@ package com.siddhant.routine.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +22,7 @@ import java.util.UUID;
 /**
  * Created by Siddhant on 20-May-16.
  */
-public class CourseEditActivity extends AppCompatActivity implements View.OnClickListener {
+public class CourseEditActivity extends AppCompatActivity {
     CourseManager cm;
     Course course;
     UUID courseId;
@@ -29,10 +30,7 @@ public class CourseEditActivity extends AppCompatActivity implements View.OnClic
     Button plusButton;
     RecyclerView expandableListView;
     ModuleExpandableListAdapter adapter;
-
-    public static int clamp(float val, float min, float max) {
-        return (int) Math.max(min, Math.min(max, val));
-    }
+    private long lastClickTime = 0;
 
     private void doBackActions() {
         course.setCourseName(courseName.getText().toString());
@@ -77,24 +75,21 @@ public class CourseEditActivity extends AppCompatActivity implements View.OnClic
         expandableListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         expandableListView.setAdapter(adapter);
 
-        plusButton.setOnClickListener(this);
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (SystemClock.elapsedRealtime() - lastClickTime < 300){
+                    return;
+                }
+                lastClickTime = SystemClock.elapsedRealtime();
+
+                adapter.addNewModule(courseId);
+                expandableListView.scrollToPosition(course.getCourseModules().size()-1);
+            }
+        });
 
         courseName.setText(course.getCourseName());
         courseName.requestFocus();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()) {
-            case R.id.edit_course_plus_button:
-                adapter.addNewModule(courseId);
-                expandableListView.scrollToPosition(course.getCourseModules().size()-1);
-                break;
-
-            case R.id.expandable_list_module_delete:
-                break;
-
-            default: break;
-        }
     }
 }
