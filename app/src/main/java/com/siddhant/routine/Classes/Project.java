@@ -1,4 +1,4 @@
-package com.siddhant.routine.Classes;
+package com.siddhant.routine.classes;
 
 import java.util.Date;
 import java.util.UUID;

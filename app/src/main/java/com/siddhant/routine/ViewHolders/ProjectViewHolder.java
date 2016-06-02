@@ -1,9 +1,9 @@
-package com.siddhant.routine.ViewHolders;
+package com.siddhant.routine.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.siddhant.routine.Classes.Project;
+import com.siddhant.routine.classes.Project;
 
 /**
  * Created by Siddhant on 25-May-16.

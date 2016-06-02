@@ -1,4 +1,4 @@
-package com.siddhant.routine.ViewHolders;
+package com.siddhant.routine.viewholders;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,8 +9,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ParentViewHolder;
-import com.siddhant.routine.Adapters.ModuleExpandableListAdapter;
-import com.siddhant.routine.Classes.Module;
+import com.siddhant.routine.adapters.ModuleExpandableListAdapter;
+import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.R;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.siddhant.routine.Fragments;
+package com.siddhant.routine.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.siddhant.routine.Adapters.ProjectListAdapter;
-import com.siddhant.routine.Classes.Project;
-import com.siddhant.routine.Utilities.ProjectManager;
+import com.siddhant.routine.adapters.ProjectListAdapter;
+import com.siddhant.routine.classes.Project;
+import com.siddhant.routine.utilities.ProjectManager;
 import com.siddhant.routine.R;
 
 /**

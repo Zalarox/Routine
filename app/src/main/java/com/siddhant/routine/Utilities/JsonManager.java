@@ -1,12 +1,12 @@
-package com.siddhant.routine.Utilities;
+package com.siddhant.routine.utilities;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.siddhant.routine.Classes.Course;
-import com.siddhant.routine.Classes.Project;
+import com.siddhant.routine.classes.Course;
+import com.siddhant.routine.classes.Project;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

@@ -1,4 +1,4 @@
-package com.siddhant.routine.Classes;
+package com.siddhant.routine.classes;
 
 import java.io.Serializable;
 import java.util.ArrayList;

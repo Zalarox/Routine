@@ -1,15 +1,17 @@
-package com.siddhant.routine.ViewHolders;
+package com.siddhant.routine.viewholders;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
-import com.siddhant.routine.Adapters.ModuleExpandableListAdapter;
-import com.siddhant.routine.Classes.Module;
-import com.siddhant.routine.Classes.Topic;
+import com.siddhant.routine.adapters.ModuleExpandableListAdapter;
+import com.siddhant.routine.classes.Module;
+import com.siddhant.routine.classes.Topic;
 import com.siddhant.routine.R;
 
 import java.util.ArrayList;
@@ -37,7 +39,6 @@ public class ModulesChildViewHolder extends ChildViewHolder {
         childTopic.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-
                 moduleList = (ArrayList<Module>) adapter.getParentItemList();
                 for(Module module : moduleList) {
                     if(module.getModuleId().equals(moduleId)) {
@@ -45,17 +46,32 @@ public class ModulesChildViewHolder extends ChildViewHolder {
                     }
                 }
 
-                topic.setTopicName(childTopic.getText().toString());
+                int index = topicList.indexOf(topic);
 
-                if(!hasFocus && topicList.indexOf(topic) != topicList.size()-1) {
-                    if(TextUtils.isEmpty(childTopic.getText())) {
+                if(hasFocus && index == topicList.size()-1) {
+                    adapter.addTopicChild(moduleId, topicList.size());
+                }
+
+                if(!hasFocus) {
+                    if (TextUtils.isEmpty(childTopic.getText()) && topicList.size() != 1) {
                         adapter.removeTopicChild(moduleId, topicList.indexOf(topic));
                     }
                 }
+            }
+        });
 
-                if(hasFocus && topicList.indexOf(topic) == topicList.size()-1) {
-                    adapter.addTopicChild(moduleId, topicList.size());
-                }
+        childTopic.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                topic.setTopicName(childTopic.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
             }
         });
 

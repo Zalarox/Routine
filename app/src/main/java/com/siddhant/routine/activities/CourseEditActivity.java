@@ -1,4 +1,4 @@
-package com.siddhant.routine.Activities;
+package com.siddhant.routine.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.siddhant.routine.Adapters.ModuleExpandableListAdapter;
-import com.siddhant.routine.Classes.Course;
 import com.siddhant.routine.R;
-import com.siddhant.routine.Utilities.CourseManager;
+import com.siddhant.routine.adapters.ModuleExpandableListAdapter;
+import com.siddhant.routine.classes.Course;
+import com.siddhant.routine.classes.Module;
+import com.siddhant.routine.classes.Topic;
+import com.siddhant.routine.utilities.CourseManager;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -30,10 +33,18 @@ public class CourseEditActivity extends AppCompatActivity {
     Button plusButton;
     RecyclerView expandableListView;
     ModuleExpandableListAdapter adapter;
+    ArrayList<Module> moduleList;
     private long lastClickTime = 0;
 
     private void doBackActions() {
         course.setCourseName(courseName.getText().toString());
+        moduleList = course.getCourseModules();
+        for(Module module : moduleList) {
+            ArrayList<Topic> topicList = (ArrayList<Topic>) module.getChildItemList();
+            Topic lastTopic = topicList.get(topicList.size()-1);
+            if(lastTopic.getTopicName().isEmpty())
+                module.removeTopic(topicList.size()-1);
+        }
         Intent i = new Intent();
         i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId.toString());
         setResult(0, i);
@@ -71,6 +82,12 @@ public class CourseEditActivity extends AppCompatActivity {
         cm = CourseManager.getInstance(getApplicationContext());
         course = cm.getCourse(courseId);
 
+        moduleList = course.getCourseModules();
+        for(Module module : moduleList) {
+            if(module.getChildItemList().isEmpty()) {
+                module.addTopic();
+            }
+        }
         adapter = new ModuleExpandableListAdapter(this, course.getCourseModules());
         expandableListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         expandableListView.setAdapter(adapter);

@@ -1,21 +1,23 @@
-package com.siddhant.routine.Activities;
+package com.siddhant.routine.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.siddhant.routine.Adapters.ModuleCardListAdapter;
-import com.siddhant.routine.Classes.Course;
-import com.siddhant.routine.Classes.Module;
+import com.siddhant.routine.adapters.ModuleCardListAdapter;
+import com.siddhant.routine.classes.Course;
+import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.R;
-import com.siddhant.routine.Utilities.CourseManager;
+import com.siddhant.routine.utilities.CourseManager;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -34,6 +36,10 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setSharedElementExitTransition(TransitionInflater.from(this).
+                            inflateTransition(R.transition.shared_element_transition));
+        }
         setContentView(R.layout.activity_course);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setElevation(0);
@@ -109,5 +115,6 @@ public class CourseActivity extends AppCompatActivity {
         cm.updateCourse(course.getCourseId(), course);
         courseTitle.setText(course.getCourseName());
         moduleList = course.getCourseModules();
+        adapter.notifyDataSetChanged();
     }
 }

@@ -1,4 +1,4 @@
-package com.siddhant.routine.Classes;
+package com.siddhant.routine.classes;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -34,4 +34,8 @@ public class Topic implements Serializable {
         this.isTopicDone = isTopicDone;
     }
 
+    @Override
+    public String toString() {
+        return topicName;
+    }
 }

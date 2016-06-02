@@ -1,4 +1,4 @@
-package com.siddhant.routine.Adapters;
+package com.siddhant.routine.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,10 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.siddhant.routine.Classes.Course;
-import com.siddhant.routine.Utilities.CourseManager;
+import com.siddhant.routine.classes.Course;
+import com.siddhant.routine.utilities.CourseManager;
 import com.siddhant.routine.R;
-import com.siddhant.routine.ViewHolders.CourseViewHolder;
+import com.siddhant.routine.viewholders.CourseViewHolder;
 
 /**
  * Created by Siddhant on 25-May-16.

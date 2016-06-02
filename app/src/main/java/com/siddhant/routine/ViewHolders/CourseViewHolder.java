@@ -1,4 +1,4 @@
-package com.siddhant.routine.ViewHolders;
+package com.siddhant.routine.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.siddhant.routine.Activities.CourseActivity;
-import com.siddhant.routine.Classes.Course;
+import com.siddhant.routine.activities.CourseActivity;
+import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.R;
 
 /**

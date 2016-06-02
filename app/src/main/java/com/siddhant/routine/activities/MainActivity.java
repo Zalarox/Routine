@@ -1,4 +1,4 @@
-package com.siddhant.routine.Activities;
+package com.siddhant.routine.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,11 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.siddhant.routine.Utilities.CourseManager;
+import com.siddhant.routine.utilities.CourseManager;
 import com.siddhant.routine.R;
-import com.siddhant.routine.Fragments.CourseListFragment;
-import com.siddhant.routine.Fragments.DashboardFragment;
-import com.siddhant.routine.Fragments.ProjectListFragment;
+import com.siddhant.routine.fragments.CourseListFragment;
+import com.siddhant.routine.fragments.DashboardFragment;
+import com.siddhant.routine.fragments.ProjectListFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

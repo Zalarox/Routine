@@ -1,4 +1,4 @@
-package com.siddhant.routine.Fragments;
+package com.siddhant.routine.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.siddhant.routine.Activities.CourseActivity;
-import com.siddhant.routine.Adapters.CourseListAdapter;
-import com.siddhant.routine.Classes.Course;
-import com.siddhant.routine.Utilities.CourseManager;
+import com.siddhant.routine.activities.CourseActivity;
+import com.siddhant.routine.adapters.CourseListAdapter;
+import com.siddhant.routine.classes.Course;
+import com.siddhant.routine.utilities.CourseManager;
 import com.siddhant.routine.R;
 
 /**
@@ -49,6 +49,7 @@ public class CourseListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateListData();
+        cm.saveData();
     }
 
     @Nullable

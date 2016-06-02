@@ -1,77 +1,73 @@
-package com.siddhant.routine.ViewHolders;
+package com.siddhant.routine.viewholders;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.util.Pair;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.siddhant.routine.Classes.Module;
-import com.siddhant.routine.Classes.Topic;
 import com.siddhant.routine.R;
-
-import java.util.ArrayList;
+import com.siddhant.routine.activities.ModuleUpdateActivity;
+import com.siddhant.routine.classes.Module;
 
 /**
  * Created by Siddhant on 29-May-16.
  */
 public class ModuleCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     Context context;
-    ArrayList<Topic> topicList;
-
+    FragmentManager fm;
+    Module module;
     TextView title;
     TextView totalTopics;
-    TextView noTopics;
-    ListView moduleTopicList;
+    View sharedElement;
     ProgressBar progressBar;
-    Button editButton;
+    CardView cardView;
 
     public ModuleCardViewHolder(Context context, View itemView) {
         super(itemView);
         this.context = context;
 
+        cardView = (CardView) itemView.findViewById(R.id.module_card_card_view);
+        cardView.setOnClickListener(this);
+
+        sharedElement = itemView.findViewById(R.id.module_card_shared_linear_layout);
         title = (TextView) itemView.findViewById(R.id.module_card_title);
         totalTopics = (TextView) itemView.findViewById(R.id.module_card_total_topics);
-        noTopics = (TextView) itemView.findViewById(R.id.module_has_no_topics);
-        moduleTopicList = (ListView) itemView.findViewById(R.id.module_card_topic_list_view);
         progressBar = (ProgressBar) itemView.findViewById(R.id.module_card_progress_bar);
-
-        editButton = (Button) itemView.findViewById(R.id.module_card_edit_button);
-        editButton.setOnClickListener(this);
-
+        fm = ((AppCompatActivity) context).getSupportFragmentManager();
     }
 
     @Override
     public void onClick(View v) {
-        if(!moduleTopicList.isClickable()) {
-            editButton.setText("Done");
-            moduleTopicList.setClickable(true);
+        Intent i = new Intent(context, ModuleUpdateActivity.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+
+            Pair<View, String> p1, p2, p3, p4;
+            p1 = new Pair<>((View) title, "title");
+            p2 = new Pair<>((View) totalTopics, "totalTopics");
+            p3 = new Pair<>((View) progressBar, "progressBar");
+            p4 = new Pair<>((View) cardView, "test");
+
+            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation((AppCompatActivity)context, p1, p2, p3, p4);
+            context.startActivity(i, optionsCompat.toBundle());
         } else {
-            editButton.setText("Edit");
-            moduleTopicList.setClickable(false);
+            context.startActivity(i);
         }
     }
 
     public void bind(Module module) {
+        this.module = module;
         title.setText(context.getString(R.string.module_list_title, getAdapterPosition()+1));
         totalTopics.setText(context.getString(R.string.module_topics, module.getDoneTopics(),
                 module.getChildItemList().size()));
-
-        if(module.getChildItemList().isEmpty()) {
-            noTopics.setVisibility(View.VISIBLE);
-            moduleTopicList.setVisibility(View.GONE);
-        } else {
-            noTopics.setVisibility(View.GONE);
-            moduleTopicList.setVisibility(View.VISIBLE);
-        }
-
-        progressBar.setProgress((int) module.getProgress());
-        this.topicList = (ArrayList<Topic>) module.getChildItemList();
-        ArrayAdapter<Topic> adapter = new ArrayAdapter<Topic>(context,
-                android.R.layout.simple_list_item_1, topicList);
-        moduleTopicList.setAdapter(adapter);
+        progressBar.setProgress((int) Math.floor(module.getProgress()*10000));
     }
 }

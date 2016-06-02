@@ -1,4 +1,4 @@
-package com.siddhant.routine.Fragments;
+package com.siddhant.routine.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

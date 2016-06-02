@@ -1,4 +1,4 @@
-package com.siddhant.routine.Classes;
+package com.siddhant.routine.classes;
 
 
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
@@ -15,7 +15,6 @@ public class Module implements Serializable, ParentListItem {
 
     private UUID moduleId;
     private UUID courseId;
-    private int doneTopics;
     private boolean moduleIsDone;
     private float progress;
     private ArrayList<Topic> topics;
@@ -35,30 +34,22 @@ public class Module implements Serializable, ParentListItem {
         topics.remove(index);
     }
 
-    public void updateValues() {
-        doneTopics = 0;
-        for(Topic topic : topics) {
-            if(topic.isTopicDone()) {
-                doneTopics++;
-            }
-        }
-        progress = (doneTopics/topics.size())*100;
-        if(progress == 100) {
-            moduleIsDone = true;
-        } else {
-            moduleIsDone = false;
-        }
-    }
-
     public boolean isModuleDone() {
         return moduleIsDone;
     }
 
     public float getProgress() {
+        if(!topics.isEmpty())
+            progress = (getDoneTopics()/(float)topics.size());
         return progress;
     }
 
     public int getDoneTopics() {
+        int doneTopics=0;
+        for(Topic topic : topics) {
+            if(topic.isTopicDone())
+                doneTopics++;
+        }
         return doneTopics;
     }
 

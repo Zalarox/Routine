@@ -1,4 +1,4 @@
-package com.siddhant.routine.Adapters;
+package com.siddhant.routine.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
-import com.siddhant.routine.Classes.Module;
-import com.siddhant.routine.Classes.Topic;
+import com.siddhant.routine.classes.Module;
+import com.siddhant.routine.classes.Topic;
 import com.siddhant.routine.R;
-import com.siddhant.routine.ViewHolders.ModulesChildViewHolder;
-import com.siddhant.routine.ViewHolders.ModulesParentViewHolder;
+import com.siddhant.routine.viewholders.ModulesChildViewHolder;
+import com.siddhant.routine.viewholders.ModulesParentViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,6 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
     public void addNewModule(UUID uuid) {
         Module m = new Module(uuid);
         m.addTopic();
-        m.updateValues();
         moduleList.add(m);
         notifyParentItemInserted(moduleList.size()-1);
     }
@@ -46,7 +45,6 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
         for(Module m : moduleList) {
             if(m.getModuleId().equals(moduleId)) {
                 m.addTopic();
-                m.updateValues();
                 notifyChildItemInserted(moduleList.indexOf(m), position);
                 break;
             }
@@ -57,7 +55,6 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
         for(Module m : moduleList) {
             if(m.getModuleId().equals(moduleId)) {
                 m.removeTopic(position);
-                m.updateValues();
                 notifyChildItemRemoved(moduleList.indexOf(m), position);
             }
         }

@@ -1,9 +1,9 @@
-package com.siddhant.routine.Utilities;
+package com.siddhant.routine.utilities;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import com.siddhant.routine.Classes.Course;
+import com.siddhant.routine.classes.Course;
 
 import java.io.IOException;
 import java.util.ArrayList;

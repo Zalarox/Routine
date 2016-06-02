@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,15 +17,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.CourseActivity"
-            android:parentActivityName=".Activities.MainActivity"
+            android:name=".activities.CourseActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppThemeNoElevation">
         </activity>
         <activity
-            android:name=".Activities.CourseEditActivity"
-            android:parentActivityName=".Activities.CourseActivity"
+            android:name=".activities.CourseEditActivity"
+            android:parentActivityName=".activities.CourseActivity"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppThemeNoElevation">
+        </activity>
+        <activity
+            android:name=".activities.ModuleUpdateActivity"
+            android:parentActivityName=".activities.CourseActivity"
+            android:theme="@style/CustomDialogActivity">
         </activity>
     </application>
 
