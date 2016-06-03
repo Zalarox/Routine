@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.siddhant.routine"  >
+    package="com.siddhant.routine">
 
     <application
         android:allowBackup="true"
@@ -8,30 +8,31 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activities.SplashActivity"
+            android:theme="@style/SplashTheme">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.CourseActivity"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppThemeNoElevation">
-        </activity>
+            android:theme="@style/AppThemeNoElevation"/>
         <activity
             android:name=".activities.CourseEditActivity"
             android:parentActivityName=".activities.CourseActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppThemeNoElevation">
-        </activity>
+            android:theme="@style/AppThemeNoElevation"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".activities.ModuleUpdateActivity"
             android:parentActivityName=".activities.CourseActivity"
-            android:theme="@style/CustomDialogActivity">
-        </activity>
+            android:theme="@style/CustomDialogActivity"/>
     </application>
 
 </manifest>

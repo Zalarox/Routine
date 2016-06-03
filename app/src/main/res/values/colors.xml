@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#0D47A1</color>
     <color name="colorAccent">#FF1744</color>
     <color name="colorBackground">#424242</color>
-    <color name="colorGreyHorizontalRule">#5be0e0e0</color>
+    <color name="colorTopicDone">#BDBDBD</color>
     <color name="navDrawerIconGray">#6e6e6e</color>
 </resources>

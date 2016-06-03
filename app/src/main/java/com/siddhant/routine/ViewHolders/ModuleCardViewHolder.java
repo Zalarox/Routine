@@ -47,6 +47,8 @@ public class ModuleCardViewHolder extends RecyclerView.ViewHolder implements Vie
     @Override
     public void onClick(View v) {
         Intent i = new Intent(context, ModuleUpdateActivity.class);
+        i.putExtra(context.getString(R.string.EXTRA_COURSE_UUID), module.getCourseId().toString());
+        i.putExtra(context.getString(R.string.EXTRA_MODULE_UUID), module.getModuleId().toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 
             Pair<View, String> p1, p2, p3, p4;
@@ -57,9 +59,9 @@ public class ModuleCardViewHolder extends RecyclerView.ViewHolder implements Vie
 
             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.
                     makeSceneTransitionAnimation((AppCompatActivity)context, p1, p2, p3, p4);
-            context.startActivity(i, optionsCompat.toBundle());
+            ((AppCompatActivity) context).startActivityForResult(i, 0, optionsCompat.toBundle());
         } else {
-            context.startActivity(i);
+            ((AppCompatActivity) context).startActivityForResult(i, 0);
         }
     }
 

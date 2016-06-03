@@ -34,6 +34,11 @@ public class Topic implements Serializable {
         this.isTopicDone = isTopicDone;
     }
 
+    public boolean toggleDone() {
+        isTopicDone = !isTopicDone();
+        return isTopicDone;
+    }
+
     @Override
     public String toString() {
         return topicName;

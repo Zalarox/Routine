@@ -23,9 +23,9 @@ public class CourseViewHolder extends RecyclerView.ViewHolder implements View.On
 
     Context context;
 
-    public CourseViewHolder(Context context, View itemView) {
+    public CourseViewHolder(View itemView) {
         super(itemView);
-        this.context = context;
+        this.context = itemView.getContext();
 
         title = (TextView) itemView.findViewById(R.id.textview_title);
         modules = (TextView) itemView.findViewById(R.id.textview_modules);
