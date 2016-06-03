@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.siddhant.routine.R;
 import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.utilities.CourseManager;
-import com.siddhant.routine.R;
 import com.siddhant.routine.viewholders.CourseViewHolder;
 
 /**

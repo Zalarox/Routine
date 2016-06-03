@@ -43,6 +43,18 @@ public class Course implements Serializable {
         return courseProgress;
     }
 
+    public void updateProgress() {
+        int total=0;
+        int done=0;
+
+        for(Module module : courseModules) {
+            total += module.getChildItemList().size();
+            done += module.getDoneTopics();
+        }
+
+        courseProgress = (done/(float)total);
+    }
+
     public int getTotalModules() {
         return totalModules;
     }
@@ -67,9 +79,4 @@ public class Course implements Serializable {
         return courseModules;
     }
 
-    public void updateProgress() {
-        if(totalModules != 0) {
-            courseProgress = (doneModules / totalModules) * 100;
-        }
-    }
 }

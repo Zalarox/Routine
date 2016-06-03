@@ -74,11 +74,12 @@ public class ModuleUpdateActivity extends AppCompatActivity {
         moduleTitle.setText(getString(R.string.module_list_title, moduleNumber));
         totalTopics.setText(getString(R.string.module_topics, module.getDoneTopics(),
                 topics.size()));
-        progressBar.setProgress((int) module.getProgress()*10000);
 
         TopicListAdapter adapter = new TopicListAdapter(topics, progressBar, totalTopics, module);
         moduleTopicList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         moduleTopicList.setAdapter(adapter);
+
+        progressBar.setProgress((int) Math.floor(module.getProgress()*10000));
     }
 
     @Override

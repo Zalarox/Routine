@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.siddhant.routine.activities.CourseActivity;
+import com.siddhant.routine.R;
+import com.siddhant.routine.activities.CourseEditActivity;
 import com.siddhant.routine.adapters.CourseListAdapter;
 import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.utilities.CourseManager;
-import com.siddhant.routine.R;
 
 /**
  * Created by Siddhant on 05-Mar-16.
@@ -24,12 +24,12 @@ import com.siddhant.routine.R;
 public class CourseListFragment extends Fragment {
 
     CourseManager cm;
-    CourseListAdapter recyclerViewAdapter;
+    CourseListAdapter adapter;
     RecyclerView recyclerView;
     ImageView noDataMessage;
 
     private void updateListData() {
-        recyclerViewAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         if(cm.getSize() == 0) {
             noDataMessage.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -61,11 +61,11 @@ public class CourseListFragment extends Fragment {
         cm = CourseManager.getInstance(getContext());
 
         noDataMessage = (ImageView) v.findViewById(R.id.no_data_message);
-        recyclerViewAdapter = new CourseListAdapter();
-
+        adapter = new CourseListAdapter();
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setAdapter(adapter);
+
 
         updateListData();
 
@@ -75,7 +75,7 @@ public class CourseListFragment extends Fragment {
             public void onClick(View view) {
                 Course c = new Course();
                 cm.addCourse(c);
-                Intent i = new Intent(getContext(), CourseActivity.class);
+                Intent i = new Intent(getContext(), CourseEditActivity.class);
                 i.putExtra(getString(R.string.EXTRA_COURSE_UUID), c.getCourseId().toString());
                 startActivity(i);
             }

@@ -30,14 +30,14 @@ public class CourseViewHolder extends RecyclerView.ViewHolder implements View.On
         title = (TextView) itemView.findViewById(R.id.textview_title);
         modules = (TextView) itemView.findViewById(R.id.textview_modules);
         projects = (TextView) itemView.findViewById(R.id.textview_projects);
-        progressBar = (ProgressBar) itemView.findViewById(R.id.progress_bar);
+        progressBar = (ProgressBar) itemView.findViewById(R.id.course_progress_bar);
         itemView.setOnClickListener(this);
     }
 
     public void bindCourse(Course course) {
         this.course = course;
         title.setText(course.getCourseName());
-        progressBar.setProgress((int) course.getCourseProgress());
+        progressBar.setProgress((int) Math.floor(course.getCourseProgress()*10000));
     }
 
     @Override

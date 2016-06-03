@@ -44,6 +44,13 @@ public class CourseEditActivity extends AppCompatActivity {
             Topic lastTopic = topicList.get(topicList.size()-1);
             if(lastTopic.getTopicName().isEmpty())
                 module.removeTopic(topicList.size()-1);
+
+            for(Topic topic : topicList) {
+                if(topic.getTopicName().isEmpty()) {
+                    module.removeTopic(topicList.indexOf(topic));
+                    break;
+                }
+            }
         }
         Intent i = new Intent();
         i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId.toString());
