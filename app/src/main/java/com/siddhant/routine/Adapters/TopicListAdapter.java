@@ -23,22 +23,24 @@ public class TopicListAdapter extends RecyclerView.Adapter<TopicViewHolder> {
     ArrayList<Topic> topics;
     ProgressBar progressBar;
     TextView totalTopics;
+    TextView moduleDonePercent;
     Module module;
     Context context;
 
     public TopicListAdapter(ArrayList<Topic> topics, ProgressBar progressBar, TextView totalTopics,
-                            Module module) {
+                            TextView moduleDonePercent, Module module) {
         this.topics = topics;
         this.progressBar = progressBar;
         this.totalTopics = totalTopics;
         this.module = module;
+        this.moduleDonePercent = moduleDonePercent;
     }
 
     @Override
     public TopicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.list_item_topics, parent, false);
-        return new TopicViewHolder(view, progressBar, totalTopics, module);
+        return new TopicViewHolder(view, progressBar, totalTopics, moduleDonePercent, module);
     }
 
     @Override

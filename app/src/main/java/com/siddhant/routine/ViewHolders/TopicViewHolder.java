@@ -1,6 +1,7 @@
 package com.siddhant.routine.viewholders;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -25,24 +26,40 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
     TextView topicTitle;
     ProgressBar progressBar;
     TextView totalTopics;
+    TextView moduleDonePercent;
     Context context;
     int colorDone, colorNotDone;
 
     public TopicViewHolder(View itemView, ProgressBar progressBar, TextView totalTopics,
-                           Module module) {
+                           TextView moduleDonePercent, Module module) {
         super(itemView);
         context = itemView.getContext();
         topicTitle = (TextView) itemView.findViewById(R.id.list_item_topic_title);
         this.progressBar = progressBar;
         this.module = module;
         this.totalTopics = totalTopics;
+        this.moduleDonePercent = moduleDonePercent;
         colorNotDone = ContextCompat.getColor(context, R.color.colorBackground);
         colorDone = ContextCompat.getColor(context, R.color.colorTopicDone);
-
         progressBar.setProgress((int) Math.floor(module.getProgress()*10000));
-
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);
+    }
+
+    public void animateProgress() {
+        final float progress = module.getProgress();
+        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress",
+                (int) Math.floor(progress*10000));
+        animation.setDuration(500);
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                moduleDonePercent.setText(context.getString(R.string.module_percent,
+                        (int)Math.floor(progress*100)));
+            }
+        });
+        animation.start();
     }
 
     public void bind(Topic topic) {
@@ -53,6 +70,7 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
         } else {
             topicTitle.setTextColor(colorNotDone);
         }
+        animateProgress();
     }
 
     @Override
@@ -62,13 +80,7 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
         } else {
             topicTitle.setTextColor(colorNotDone);
         }
-
-        ObjectAnimator animation = ObjectAnimator.ofInt(progressBar, "progress",
-                (int) Math.floor(module.getProgress()*10000));
-        animation.setDuration(500);
-        animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
-
+        animateProgress();
         totalTopics.setText(context.getString(R.string.module_topics, module.getDoneTopics(),
                 module.getChildItemList().size()));
     }

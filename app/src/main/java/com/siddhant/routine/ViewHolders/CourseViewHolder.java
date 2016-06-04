@@ -38,6 +38,8 @@ public class CourseViewHolder extends RecyclerView.ViewHolder implements View.On
         this.course = course;
         title.setText(course.getCourseName());
         progressBar.setProgress((int) Math.floor(course.getCourseProgress()*10000));
+        modules.setText(context.getString(R.string.course_modules, course.getDoneModules(),
+                course.getCourseModules().size()));
     }
 
     @Override

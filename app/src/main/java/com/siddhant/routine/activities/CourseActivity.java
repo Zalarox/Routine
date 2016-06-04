@@ -34,6 +34,12 @@ public class CourseActivity extends AppCompatActivity {
     CourseManager cm;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -115,6 +121,5 @@ public class CourseActivity extends AppCompatActivity {
         cm.updateCourse(course.getCourseId(), course);
         courseTitle.setText(course.getCourseName());
         moduleList = course.getCourseModules();
-        adapter.notifyDataSetChanged();
     }
 }

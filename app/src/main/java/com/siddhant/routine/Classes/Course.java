@@ -13,7 +13,6 @@ public class Course implements Serializable {
     private UUID courseId;
     private String courseName;
     private float courseProgress;
-    private int totalModules;
     private int doneModules;
     private ArrayList<Module> courseModules;
 
@@ -46,21 +45,16 @@ public class Course implements Serializable {
     public void updateProgress() {
         int total=0;
         int done=0;
+        doneModules = 0;
 
         for(Module module : courseModules) {
             total += module.getChildItemList().size();
             done += module.getDoneTopics();
+            if(module.isModuleDone())
+                doneModules++;
         }
 
         courseProgress = (done/(float)total);
-    }
-
-    public int getTotalModules() {
-        return totalModules;
-    }
-
-    public void setTotalModules(int totalModules) {
-        this.totalModules = totalModules;
     }
 
     public void setModuleList(ArrayList<Module> courseModules) {
@@ -69,10 +63,6 @@ public class Course implements Serializable {
 
     public int getDoneModules() {
         return doneModules;
-    }
-
-    public void setDoneModules(int doneModules) {
-        this.doneModules = doneModules;
     }
 
     public ArrayList<Module> getCourseModules() {

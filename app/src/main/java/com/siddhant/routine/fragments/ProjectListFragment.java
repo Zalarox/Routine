@@ -9,11 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ProjectListAdapter;
 import com.siddhant.routine.classes.Project;
 import com.siddhant.routine.utilities.ProjectManager;
-import com.siddhant.routine.R;
 
 /**
  * Created by Siddhant on 05-Mar-16.
@@ -21,24 +22,48 @@ import com.siddhant.routine.R;
 public class ProjectListFragment extends Fragment {
 
     ProjectManager pm;
+    ProjectListAdapter adapter;
+    ImageView noDataMessage;
+    RecyclerView recyclerView;
+
+    public void updateListData() {
+        if(pm.getSize() == 0) {
+            noDataMessage.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            noDataMessage.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateListData();
+        pm.saveData();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list, container, false);
-
         pm = ProjectManager.getInstance(getContext());
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new ProjectListAdapter());
+        noDataMessage = (ImageView) v.findViewById(R.id.no_data_message);
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+
+        adapter = new ProjectListAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+
+        updateListData();
 
         final FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Project p = new Project("dummy project");
-                pm.addProject(p);
+                adapter.addProject(p);
             }
         });
 

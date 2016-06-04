@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -22,13 +21,13 @@ import com.siddhant.routine.classes.Module;
  */
 public class ModuleCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     Context context;
-    FragmentManager fm;
     Module module;
     TextView title;
     TextView totalTopics;
     View sharedElement;
     ProgressBar progressBar;
     CardView cardView;
+
 
     public ModuleCardViewHolder(Context context, View itemView) {
         super(itemView);
@@ -41,7 +40,6 @@ public class ModuleCardViewHolder extends RecyclerView.ViewHolder implements Vie
         title = (TextView) itemView.findViewById(R.id.module_card_title);
         totalTopics = (TextView) itemView.findViewById(R.id.module_card_total_topics);
         progressBar = (ProgressBar) itemView.findViewById(R.id.module_card_progress_bar);
-        fm = ((AppCompatActivity) context).getSupportFragmentManager();
     }
 
     @Override

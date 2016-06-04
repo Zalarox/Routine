@@ -41,6 +41,12 @@ public class Module implements Serializable, ParentListItem {
     public float getProgress() {
         if(!topics.isEmpty())
             progress = (getDoneTopics()/(float)topics.size());
+
+        if(progress == 1)
+            moduleIsDone = true;
+        else
+            moduleIsDone = false;
+
         return progress;
     }
 
@@ -50,6 +56,12 @@ public class Module implements Serializable, ParentListItem {
             if(topic.isTopicDone())
                 doneTopics++;
         }
+
+        if(doneTopics == topics.size())
+            moduleIsDone = true;
+        else
+            moduleIsDone = false;
+
         return doneTopics;
     }
 

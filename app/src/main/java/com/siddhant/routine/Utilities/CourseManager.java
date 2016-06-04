@@ -47,8 +47,6 @@ public class CourseManager {
         for(Course course : courseList) {
             if(course.getCourseId().equals(uuid)) {
                 course.setCourseName(newCourse.getCourseName());
-                course.setDoneModules(newCourse.getDoneModules());
-                course.setTotalModules(newCourse.getTotalModules());
                 course.setModuleList(newCourse.getCourseModules());
                 course.updateProgress();
                 break;

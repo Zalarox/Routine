@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.R;
+import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.viewholders.ModuleCardViewHolder;
 
 import java.util.ArrayList;

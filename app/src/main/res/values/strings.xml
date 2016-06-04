@@ -16,9 +16,12 @@
     <string name="EXTRA_COURSE_UUID">com.siddhant.extra.course_uuid</string>
     <string name="EXTRA_MODULE_UUID">com.siddhant.extra.module_uuid</string>
     <string name="action_edit">Edit Course</string>
-    <string name="action_clear">Delete all courses</string>
+    <string name="action_delete_all">Delete all courses</string>
     <string name="action_delete">Delete course</string>
+    <string name="action_clear_all">Mark module not done</string>
+    <string name="action_done">Mark module done</string>
     <string name="module_topics">Topics %1$d/%2$d</string>
+    <string name="course_modules">%1$d/%2$d modules done</string>
     <string name="examinations">Examinations</string>
     <string name="course_name">Course Name</string>
     <string name="minus">-</string>
@@ -26,5 +29,8 @@
     <string name="number_of_modules">Number of modules</string>
     <string name="module_list_title">Module %1$d</string>
     <string name="action_discard">Discard changes</string>
+    <string name="hundred_percent">100%</string>
+    <string name="module_percent">%1$d%%</string>
+
 
 </resources>
