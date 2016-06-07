@@ -69,4 +69,8 @@ public class Course implements Serializable {
         return courseModules;
     }
 
+    @Override
+    public String toString() {
+        return courseName;
+    }
 }

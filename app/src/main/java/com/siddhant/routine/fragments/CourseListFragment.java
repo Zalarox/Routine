@@ -65,8 +65,6 @@ public class CourseListFragment extends Fragment {
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-
-
         updateListData();
 
         final FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);

@@ -31,6 +31,10 @@
     <string name="action_discard">Discard changes</string>
     <string name="hundred_percent">100%</string>
     <string name="module_percent">%1$d%%</string>
+    <string name="project_title">My Project</string>
+    <string name="due_on">Due on</string>
+    <string name="select_date">Tap here to pick a date</string>
+    <string name="course_linked">Linked to a course</string>
 
 
 </resources>

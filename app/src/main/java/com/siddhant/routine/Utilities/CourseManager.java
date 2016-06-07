@@ -58,6 +58,10 @@ public class CourseManager {
         return courseList.get(position);
     }
 
+    public ArrayList<Course> getCourseList() {
+        return courseList;
+    }
+
     public Course getCourse(UUID uuid) {
         for(Course course : courseList) {
             if(course.getCourseId().equals(uuid)) {

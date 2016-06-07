@@ -41,6 +41,7 @@ public class CourseEditActivity extends AppCompatActivity {
         moduleList = course.getCourseModules();
         for(Module module : moduleList) {
             ArrayList<Topic> topicList = (ArrayList<Topic>) module.getChildItemList();
+
             Topic lastTopic = topicList.get(topicList.size()-1);
             if(lastTopic.getTopicName().isEmpty())
                 module.removeTopic(topicList.size()-1);
@@ -51,7 +52,14 @@ public class CourseEditActivity extends AppCompatActivity {
                     break;
                 }
             }
+
+            if(topicList.isEmpty()) {
+                moduleList.remove(module);
+                continue;
+            }
         }
+
+        cm.saveData();
         Intent i = new Intent();
         i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId.toString());
         setResult(0, i);
@@ -109,7 +117,7 @@ public class CourseEditActivity extends AppCompatActivity {
                 lastClickTime = SystemClock.elapsedRealtime();
 
                 adapter.addNewModule(courseId);
-                expandableListView.scrollToPosition(course.getCourseModules().size()-1);
+                expandableListView.scrollToPosition(adapter.getItemCount()-1);
             }
         });
 

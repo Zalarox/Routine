@@ -2,15 +2,17 @@ package com.siddhant.routine.viewholders;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ProjectListAdapter;
 import com.siddhant.routine.classes.Project;
+import com.siddhant.routine.fragments.ProjectEditDialogFragment;
 import com.siddhant.routine.utilities.ProjectManager;
 
 /**
@@ -24,6 +26,7 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
     Context context;
     ProjectListAdapter adapter;
     ProjectManager pm;
+    FragmentManager fm;
 
     public ProjectViewHolder(ProjectListAdapter adapter, View itemView) {
         super(itemView);
@@ -35,6 +38,7 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
         this.adapter = adapter;
         finished.setOnClickListener(this);
         update.setOnClickListener(this);
+        fm = ((AppCompatActivity)context).getSupportFragmentManager();
     }
 
     public void bindProject(Project project) {
@@ -66,7 +70,8 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
                 break;
 
             case R.id.project_edit_button:
-                Toast.makeText(context, "Edit placeholder", Toast.LENGTH_SHORT).show();
+                ProjectEditDialogFragment projectDialog = new ProjectEditDialogFragment();
+                projectDialog.show(fm, "fragment_project");
                 break;
         }
     }

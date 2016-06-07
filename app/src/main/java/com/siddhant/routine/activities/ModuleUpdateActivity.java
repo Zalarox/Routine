@@ -33,6 +33,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
     Module module;
     int moduleNumber;
     ArrayList<Topic> topics;
+    CourseManager cm;
 
     CardView root;
     TextView moduleTitle;
@@ -49,7 +50,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
         courseId = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
         String moduleId = getIntent().getStringExtra(getString(R.string.EXTRA_MODULE_UUID));
 
-        CourseManager cm = CourseManager.getInstance(this);
+        cm = CourseManager.getInstance(this);
         Course course = cm.getCourse(UUID.fromString(courseId));
         ArrayList<Module> moduleList = course.getCourseModules();
         for(Module module : moduleList) {
@@ -102,6 +103,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
                     topic.setTopicDone(false);
                 }
                 adapter.notifyDataSetChanged();
+                cm.saveData();
             }
         });
 
@@ -112,6 +114,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
                     topic.setTopicDone(true);
                 }
                 adapter.notifyDataSetChanged();
+                cm.saveData();
             }
         });
     }
