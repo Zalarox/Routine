@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.siddhant.routine.R;
 import com.siddhant.routine.classes.Course;
-import com.siddhant.routine.utilities.CourseManager;
+import com.siddhant.routine.utilities.DataManager;
 import com.siddhant.routine.viewholders.CourseViewHolder;
 
 /**
@@ -16,13 +16,13 @@ import com.siddhant.routine.viewholders.CourseViewHolder;
  */
 public class CourseListAdapter extends RecyclerView.Adapter<CourseViewHolder> {
 
-    CourseManager cm;
+    DataManager cm;
     Context context;
 
     @Override
     public CourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        cm = CourseManager.getInstance(context);
+        cm = DataManager.getInstance(context);
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.list_item_courses, parent, false);
         return new CourseViewHolder(view);
@@ -30,14 +30,14 @@ public class CourseListAdapter extends RecyclerView.Adapter<CourseViewHolder> {
 
     @Override
     public void onBindViewHolder(CourseViewHolder holder, int position) {
-        cm = CourseManager.getInstance(context);
+        cm = DataManager.getInstance(context);
         Course course = cm.getCourse(position);
         holder.bindCourse(course);
     }
 
     @Override
     public int getItemCount() {
-        cm = CourseManager.getInstance(context);
-        return cm.getSize();
+        cm = DataManager.getInstance(context);
+        return cm.getCourseListSize();
     }
 }

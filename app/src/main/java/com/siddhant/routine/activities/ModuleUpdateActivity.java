@@ -22,7 +22,7 @@ import com.siddhant.routine.adapters.TopicListAdapter;
 import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.classes.Topic;
-import com.siddhant.routine.utilities.CourseManager;
+import com.siddhant.routine.utilities.DataManager;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -35,7 +35,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
     Module module;
     int moduleNumber;
     ArrayList<Topic> topics;
-    CourseManager cm;
+    DataManager cm;
 
     CardView root;
     TextView moduleTitle;
@@ -52,7 +52,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
         courseId = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
         String moduleId = getIntent().getStringExtra(getString(R.string.EXTRA_MODULE_UUID));
 
-        cm = CourseManager.getInstance(this);
+        cm = DataManager.getInstance(this);
         Course course = cm.getCourse(UUID.fromString(courseId));
         ArrayList<Module> moduleList = course.getCourseModules();
         for(Module module : moduleList) {
@@ -107,7 +107,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
                     topic.setTopicDone(false);
                 }
                 adapter.notifyDataSetChanged();
-                cm.saveData();
+                cm.saveCourseData();
             }
         });
 
@@ -118,7 +118,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
                     topic.setTopicDone(true);
                 }
                 adapter.notifyDataSetChanged();
-                cm.saveData();
+                cm.saveCourseData();
             }
         });
     }

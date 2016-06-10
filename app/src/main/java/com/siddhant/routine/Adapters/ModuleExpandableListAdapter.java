@@ -101,7 +101,6 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
             ArrayList<Topic> topics = (ArrayList<Topic>) module.getChildItemList();
             if (!TextUtils.isEmpty(topics.get(topics.size() - 1).getTopicName())) {
                 addTopicChild(module.getModuleId(), topics.size());
-                notifyItemInserted(topics.size());
             }
         }
     }

@@ -14,34 +14,34 @@ import android.widget.ImageView;
 import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ProjectListAdapter;
 import com.siddhant.routine.classes.Project;
-import com.siddhant.routine.utilities.ProjectManager;
+import com.siddhant.routine.utilities.DataManager;
 
 /**
  * Created by Siddhant on 05-Mar-16.
  */
 public class ProjectListFragment extends Fragment {
 
-    ProjectManager pm;
+    DataManager dm;
     ProjectListAdapter adapter;
     ImageView noDataMessage;
     RecyclerView recyclerView;
 
     public void updateListData() {
-        if(pm.getSize() == 0) {
+        if(dm.getSize() == 0) {
             noDataMessage.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
             noDataMessage.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-        pm.saveData();
+        dm.saveProjectData();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list, container, false);
-        pm = ProjectManager.getInstance(getContext());
+        dm = DataManager.getInstance(getContext());
 
         noDataMessage = (ImageView) v.findViewById(R.id.no_data_message);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);

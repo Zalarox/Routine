@@ -16,21 +16,21 @@ import com.siddhant.routine.R;
 import com.siddhant.routine.activities.CourseEditActivity;
 import com.siddhant.routine.adapters.CourseListAdapter;
 import com.siddhant.routine.classes.Course;
-import com.siddhant.routine.utilities.CourseManager;
+import com.siddhant.routine.utilities.DataManager;
 
 /**
  * Created by Siddhant on 05-Mar-16.
  */
 public class CourseListFragment extends Fragment {
 
-    CourseManager cm;
+    DataManager cm;
     CourseListAdapter adapter;
     RecyclerView recyclerView;
     ImageView noDataMessage;
 
     private void updateListData() {
         adapter.notifyDataSetChanged();
-        if(cm.getSize() == 0) {
+        if(cm.getCourseListSize() == 0) {
             noDataMessage.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
@@ -42,7 +42,7 @@ public class CourseListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        cm.saveData();
+        cm.saveCourseData();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class CourseListFragment extends Fragment {
         super.onResume();
 
         updateListData();
-        cm.saveData();
+        cm.saveCourseData();
     }
 
     @Nullable
@@ -59,7 +59,7 @@ public class CourseListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_list, container, false);
 
-        cm = CourseManager.getInstance(getContext());
+        cm = DataManager.getInstance(getContext());
 
         noDataMessage = (ImageView) v.findViewById(R.id.no_data_message);
         adapter = new CourseListAdapter();

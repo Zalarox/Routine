@@ -44,7 +44,6 @@ public class JsonManager {
             }
 
             return jsonString;
-
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (IOException e) {
@@ -73,8 +72,13 @@ public class JsonManager {
     public ArrayList<Project> loadProjectList() throws IOException {
         ArrayList<Project> list;
         StringBuilder jsonString = readFromFile();
-        list = gson.fromJson(jsonString.toString(),
-                new TypeToken<ArrayList<Project>>(){}.getType());
+        if(jsonString != null) {
+            list = gson.fromJson(jsonString.toString(),
+                    new TypeToken<ArrayList<Project>>() {
+                    }.getType());
+        } else {
+            list = new ArrayList<>();
+        }
         return list;
     }
 

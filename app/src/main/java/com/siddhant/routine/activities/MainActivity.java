@@ -18,8 +18,7 @@ import com.siddhant.routine.fragments.CourseListFragment;
 import com.siddhant.routine.fragments.DashboardFragment;
 import com.siddhant.routine.fragments.ProjectEditDialogFragment;
 import com.siddhant.routine.fragments.ProjectListFragment;
-import com.siddhant.routine.utilities.CourseManager;
-import com.siddhant.routine.utilities.ProjectManager;
+import com.siddhant.routine.utilities.DataManager;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -27,21 +26,19 @@ public class MainActivity extends AppCompatActivity implements
 
     Toolbar toolbar;
     NavigationView navigationView;
-    CourseManager cm;
-    ProjectManager pm;
+    DataManager dm;
     FragmentManager fm = getSupportFragmentManager();
 
     private class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         public LoadDataTask() {
-            cm = CourseManager.getInstance(MainActivity.this);
-            pm = ProjectManager.getInstance(MainActivity.this);
+            dm = DataManager.getInstance(MainActivity.this);
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            cm.loadData();
-//            pm.loadData();
+            dm.loadCourseData();
+            dm.loadProjectData();
             return null;
         }
 
@@ -103,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void OnProjectDialogClose() {
         Fragment f = new ProjectListFragment();
-        pm.saveData();
+        dm.saveProjectData();
         fm.beginTransaction().add(R.id.fragment_container, f).commit();
     }
 

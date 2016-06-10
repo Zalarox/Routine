@@ -19,8 +19,7 @@ import android.widget.Spinner;
 import com.siddhant.routine.R;
 import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.classes.Project;
-import com.siddhant.routine.utilities.CourseManager;
-import com.siddhant.routine.utilities.ProjectManager;
+import com.siddhant.routine.utilities.DataManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,8 +43,7 @@ public class ProjectEditDialogFragment extends DialogFragment {
     ViewGroup root;
 
     Project project;
-    ProjectManager pm;
-    CourseManager cm;
+    DataManager dm;
 
     OnProjectDialogCloseListener callback;
 
@@ -82,7 +80,7 @@ public class ProjectEditDialogFragment extends DialogFragment {
         project.setProjectName(title.getText().toString());
         project.setDueDate(dueDate);
         project.setNotes(projectNotes.getText().toString());
-        pm.updateProject(project.getProjectId(), project);
+        dm.updateProject(project.getProjectId(), project);
     }
 
     @Override
@@ -108,13 +106,11 @@ public class ProjectEditDialogFragment extends DialogFragment {
 
         Bundle args = getArguments();
         final String projectId = args.getString("projectId");
-        pm = ProjectManager.getInstance(getContext());
-        project = pm.getProject(UUID.fromString(projectId));
-
+        dm = DataManager.getInstance(getContext());
+        project = dm.getProject(UUID.fromString(projectId));
         title.setText(project.getProjectName());
         projectNotes.setText(project.getNotes());
-        cm = CourseManager.getInstance(getContext());
-        final ArrayList<Course> courseList = cm.getCourseList();
+        final ArrayList<Course> courseList = dm.getCourseList();
 
         sdf = new SimpleDateFormat("E, d MMMM", Locale.US);
 
@@ -179,7 +175,7 @@ public class ProjectEditDialogFragment extends DialogFragment {
     }
 
     public void initializeSpinner() {
-        ArrayList<Course> courseList = cm.getCourseList();
+        ArrayList<Course> courseList = dm.getCourseList();
         UUID projectCourseId = project.getCourseId();
         if(projectCourseId != null && project.isLinkedCourse()) {
             int position=0;

@@ -19,7 +19,7 @@ import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ModuleCardListAdapter;
 import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.classes.Module;
-import com.siddhant.routine.utilities.CourseManager;
+import com.siddhant.routine.utilities.DataManager;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -33,7 +33,7 @@ public class CourseActivity extends AppCompatActivity {
     ArrayList<Module> moduleList;
     RecyclerView moduleCardList;
     static ModuleCardListAdapter adapter;
-    CourseManager cm;
+    DataManager cm;
 
     @Override
     protected void onResume() {
@@ -57,7 +57,7 @@ public class CourseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         courseTitle = (TextView) findViewById(R.id.activity_course_title);
-        cm = CourseManager.getInstance(getApplicationContext());
+        cm = DataManager.getInstance(getApplicationContext());
         String courseIdString = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
         UUID courseId = UUID.fromString(courseIdString);
 
@@ -93,7 +93,7 @@ public class CourseActivity extends AppCompatActivity {
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                cm = CourseManager.getInstance(getApplicationContext());
+                                cm = DataManager.getInstance(getApplicationContext());
                                 cm.deleteCourse(course.getCourseId());
                                 finish();
                             }
@@ -121,7 +121,7 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String courseIdString = data.getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
-        cm = CourseManager.getInstance(getApplicationContext());
+        cm = DataManager.getInstance(getApplicationContext());
         course = cm.getCourse(UUID.fromString(courseIdString));
         cm.updateCourse(course.getCourseId(), course);
         courseTitle.setText(course.getCourseName());

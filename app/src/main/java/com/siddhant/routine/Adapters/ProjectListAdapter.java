@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.siddhant.routine.R;
 import com.siddhant.routine.classes.Project;
 import com.siddhant.routine.fragments.ProjectListFragment;
-import com.siddhant.routine.utilities.ProjectManager;
+import com.siddhant.routine.utilities.DataManager;
 import com.siddhant.routine.viewholders.ProjectViewHolder;
 
 import java.util.UUID;
@@ -19,7 +19,7 @@ import java.util.UUID;
  */
 
 public class ProjectListAdapter extends RecyclerView.Adapter<ProjectViewHolder> {
-    ProjectManager pm;
+    DataManager dm;
     Context context;
     ProjectListFragment host;
 
@@ -33,33 +33,33 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectViewHolder> 
         context = parent.getContext();
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.list_item_projects, parent, false);
-        pm = ProjectManager.getInstance(context);
+        dm = DataManager.getInstance(context);
         return new ProjectViewHolder(this, view);
     }
 
     public void removeProject(UUID projectId, int position) {
-        pm.deleteProject(projectId);
+        dm.deleteProject(projectId);
         notifyItemRemoved(position);
         host.updateListData();
-        pm.saveData();
+        dm.saveProjectData();
     }
 
     public void addProject(Project project) {
-        pm.addProject(project);
-        notifyItemInserted(pm.getSize());
+        dm.addProject(project);
+        notifyItemInserted(dm.getSize());
         host.updateListData();
-        pm.saveData();
+        dm.saveProjectData();
     }
 
     @Override
     public void onBindViewHolder(ProjectViewHolder holder, int position) {
-        pm = ProjectManager.getInstance(context);
-        holder.bindProject(pm.getProject(position));
+        dm = DataManager.getInstance(context);
+        holder.bindProject(dm.getProject(position));
     }
 
     @Override
     public int getItemCount() {
-        pm = ProjectManager.getInstance(context);
-        return pm.getSize();
+        dm = DataManager.getInstance(context);
+        return dm.getSize();
     }
 }

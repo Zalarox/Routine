@@ -15,7 +15,7 @@ import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ProjectListAdapter;
 import com.siddhant.routine.classes.Project;
 import com.siddhant.routine.fragments.ProjectEditDialogFragment;
-import com.siddhant.routine.utilities.ProjectManager;
+import com.siddhant.routine.utilities.DataManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -35,7 +35,7 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
     Context context;
     SimpleDateFormat sdf;
     ProjectListAdapter adapter;
-    ProjectManager pm;
+    DataManager dm;
     FragmentManager fm;
 
     public ProjectViewHolder(ProjectListAdapter adapter, View itemView) {
@@ -49,7 +49,7 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
 
         context = itemView.getContext();
         sdf = new SimpleDateFormat("EEEE, d MMMM", Locale.US);
-        pm = ProjectManager.getInstance(context);
+        dm = DataManager.getInstance(context);
         this.adapter = adapter;
         finished.setOnClickListener(this);
         update.setOnClickListener(this);

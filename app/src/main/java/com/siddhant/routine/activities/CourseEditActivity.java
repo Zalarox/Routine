@@ -17,7 +17,7 @@ import com.siddhant.routine.adapters.ModuleExpandableListAdapter;
 import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.classes.Topic;
-import com.siddhant.routine.utilities.CourseManager;
+import com.siddhant.routine.utilities.DataManager;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -26,7 +26,7 @@ import java.util.UUID;
  * Created by Siddhant on 20-May-16.
  */
 public class CourseEditActivity extends AppCompatActivity {
-    CourseManager cm;
+    DataManager cm;
     Course course;
     UUID courseId;
     EditText courseName;
@@ -62,7 +62,7 @@ public class CourseEditActivity extends AppCompatActivity {
 
         moduleList.removeAll(empty);
 
-        cm.saveData();
+        cm.saveCourseData();
         Intent i = new Intent();
         i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId.toString());
         setResult(0, i);
@@ -97,7 +97,7 @@ public class CourseEditActivity extends AppCompatActivity {
 
         String courseIdString = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
         courseId = UUID.fromString(courseIdString);
-        cm = CourseManager.getInstance(getApplicationContext());
+        cm = DataManager.getInstance(getApplicationContext());
         course = cm.getCourse(courseId);
 
         moduleList = course.getCourseModules();
