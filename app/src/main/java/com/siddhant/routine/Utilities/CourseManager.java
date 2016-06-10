@@ -20,7 +20,7 @@ public class CourseManager {
 
     private CourseManager(Context appContext) {
         this.appContext = appContext;
-        jsonManager = new JsonManager(appContext, "routine-c-db");
+        this.jsonManager = new JsonManager(appContext, "routine-c-db");
     }
 
     public static CourseManager getInstance(Context c) {
@@ -87,7 +87,7 @@ public class CourseManager {
         try {
             courseList = jsonManager.loadCourseList();
         } catch (IOException e) {
-            Toast.makeText(appContext, "Error loading course data...", Toast.LENGTH_SHORT).show();
+            System.out.println(e.getMessage());
         }
     }
 }

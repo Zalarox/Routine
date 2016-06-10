@@ -2,12 +2,14 @@ package com.siddhant.routine.viewholders;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ProjectListAdapter;
@@ -15,15 +17,23 @@ import com.siddhant.routine.classes.Project;
 import com.siddhant.routine.fragments.ProjectEditDialogFragment;
 import com.siddhant.routine.utilities.ProjectManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by Siddhant on 25-May-16.
  */
 public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    Project project;
+    TextView projectName;
+    TextView projectDueDate;
+    TextView projectNotes;
     Button update;
     Button finished;
+
+    Project project;
     Context context;
+    SimpleDateFormat sdf;
     ProjectListAdapter adapter;
     ProjectManager pm;
     FragmentManager fm;
@@ -31,9 +41,14 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
     public ProjectViewHolder(ProjectListAdapter adapter, View itemView) {
         super(itemView);
         itemView.setClickable(true);
+        projectName = (TextView) itemView.findViewById(R.id.project_title);
+        projectDueDate = (TextView) itemView.findViewById(R.id.project_due_date);
+        projectNotes = (TextView) itemView.findViewById(R.id.project_notes);
         finished = (Button) itemView.findViewById(R.id.project_finished_button);
         update = (Button) itemView.findViewById(R.id.project_edit_button);
+
         context = itemView.getContext();
+        sdf = new SimpleDateFormat("EEEE, d MMMM", Locale.US);
         pm = ProjectManager.getInstance(context);
         this.adapter = adapter;
         finished.setOnClickListener(this);
@@ -43,6 +58,14 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public void bindProject(Project project) {
         this.project = project;
+        projectName.setText(project.getProjectName());
+        if(project.getDueDate() != null) {
+            String date = sdf.format(project.getDueDate());
+            projectDueDate.setText(date);
+        } else {
+            projectDueDate.setText(R.string.no_due_date);
+        }
+        projectNotes.setText(project.getNotes());
     }
 
     @Override
@@ -71,6 +94,9 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
 
             case R.id.project_edit_button:
                 ProjectEditDialogFragment projectDialog = new ProjectEditDialogFragment();
+                Bundle args = new Bundle();
+                args.putString("projectId", project.getProjectId().toString());
+                projectDialog.setArguments(args);
                 projectDialog.show(fm, "fragment_project");
                 break;
         }

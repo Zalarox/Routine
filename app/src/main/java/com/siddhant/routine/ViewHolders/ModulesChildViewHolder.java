@@ -1,12 +1,13 @@
 package com.siddhant.routine.viewholders;
 
+import android.content.Context;
+import android.support.design.widget.TextInputEditText;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 
 import com.bignerdranch.expandablerecyclerview.ViewHolder.ChildViewHolder;
 import com.siddhant.routine.R;
@@ -26,18 +27,20 @@ public class ModulesChildViewHolder extends ChildViewHolder implements View.OnFo
     ArrayList<Module> moduleList;
     ArrayList<Topic> topicList;
     UUID moduleId;
-    EditText childTopic;
+    TextInputEditText childTopic;
     CheckBox childTopicDone;
     ModuleExpandableListAdapter adapter;
+    Context context;
 
     public ModulesChildViewHolder(final ModuleExpandableListAdapter adapter, View itemView) {
         super(itemView);
 
-        childTopic = (EditText) itemView.findViewById(R.id.expandable_list_group_child_text);
+        childTopic = (TextInputEditText) itemView.findViewById(R.id.expandable_list_group_child_text);
         childTopicDone = (CheckBox) itemView.findViewById
                 (R.id.expandable_list_group_child_checkbox);
         moduleList = (ArrayList<Module>) adapter.getParentItemList();
         this.adapter = adapter;
+        this.context = itemView.getContext();
 
         childTopic.addTextChangedListener(new TextWatcher() {
             @Override
@@ -48,14 +51,14 @@ public class ModulesChildViewHolder extends ChildViewHolder implements View.OnFo
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 topic.setTopicName(childTopic.getText().toString());
 
-                for(Module module : moduleList) {
-                    if(module.getModuleId().equals(moduleId)) {
+                for (Module module : moduleList) {
+                    if (module.getModuleId().equals(moduleId)) {
                         topicList = (ArrayList<Topic>) module.getChildItemList();
                     }
                 }
 
                 int index = topicList.indexOf(topic);
-                if(index == topicList.size()-1) {
+                if (index == topicList.size() - 1 && childTopic.hasFocus()) {
                     if (!TextUtils.isEmpty(childTopic.getText())) {
                         adapter.addTopicChild(moduleId, topicList.size());
                     }

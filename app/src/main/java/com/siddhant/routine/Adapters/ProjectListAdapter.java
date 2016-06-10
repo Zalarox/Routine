@@ -17,6 +17,7 @@ import java.util.UUID;
 /**
  * Created by Siddhant on 25-May-16.
  */
+
 public class ProjectListAdapter extends RecyclerView.Adapter<ProjectViewHolder> {
     ProjectManager pm;
     Context context;
@@ -40,12 +41,14 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectViewHolder> 
         pm.deleteProject(projectId);
         notifyItemRemoved(position);
         host.updateListData();
+        pm.saveData();
     }
 
     public void addProject(Project project) {
         pm.addProject(project);
         notifyItemInserted(pm.getSize());
         host.updateListData();
+        pm.saveData();
     }
 
     @Override

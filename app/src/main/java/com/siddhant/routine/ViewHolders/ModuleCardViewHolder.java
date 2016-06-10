@@ -1,14 +1,16 @@
 package com.siddhant.routine.viewholders;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,22 +26,19 @@ public class ModuleCardViewHolder extends RecyclerView.ViewHolder implements Vie
     Module module;
     TextView title;
     TextView totalTopics;
-    View sharedElement;
     ProgressBar progressBar;
     CardView cardView;
-
+    FrameLayout frameLayout;
 
     public ModuleCardViewHolder(Context context, View itemView) {
         super(itemView);
         this.context = context;
-
         cardView = (CardView) itemView.findViewById(R.id.module_card_card_view);
         cardView.setOnClickListener(this);
-
-        sharedElement = itemView.findViewById(R.id.module_card_shared_linear_layout);
         title = (TextView) itemView.findViewById(R.id.module_card_title);
         totalTopics = (TextView) itemView.findViewById(R.id.module_card_total_topics);
         progressBar = (ProgressBar) itemView.findViewById(R.id.module_card_progress_bar);
+        frameLayout = (FrameLayout) itemView.findViewById(R.id.framelayout);
     }
 
     @Override
@@ -47,19 +46,15 @@ public class ModuleCardViewHolder extends RecyclerView.ViewHolder implements Vie
         Intent i = new Intent(context, ModuleUpdateActivity.class);
         i.putExtra(context.getString(R.string.EXTRA_COURSE_UUID), module.getCourseId().toString());
         i.putExtra(context.getString(R.string.EXTRA_MODULE_UUID), module.getModuleId().toString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-
-            Pair<View, String> p1, p2, p3, p4;
-            p1 = new Pair<>((View) title, "title");
-            p2 = new Pair<>((View) totalTopics, "totalTopics");
-            p3 = new Pair<>((View) progressBar, "progressBar");
-            p4 = new Pair<>((View) cardView, "test");
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean transitionsEnabled = prefs.getBoolean("transitions", true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && transitionsEnabled) {
             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation((AppCompatActivity)context, p1, p2, p3, p4);
-            ((AppCompatActivity) context).startActivityForResult(i, 0, optionsCompat.toBundle());
+                    makeSceneTransitionAnimation((Activity)context, cardView, "card_view");
+            ((Activity) context).startActivityForResult(i, 0, optionsCompat.toBundle());
         } else {
-            ((AppCompatActivity) context).startActivityForResult(i, 0);
+            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            ((Activity) context).startActivityForResult(i, 0);
         }
     }
 

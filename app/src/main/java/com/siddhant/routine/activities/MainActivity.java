@@ -1,5 +1,7 @@
 package com.siddhant.routine.activities;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,53 +13,98 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.siddhant.routine.utilities.CourseManager;
 import com.siddhant.routine.R;
 import com.siddhant.routine.fragments.CourseListFragment;
 import com.siddhant.routine.fragments.DashboardFragment;
+import com.siddhant.routine.fragments.ProjectEditDialogFragment;
 import com.siddhant.routine.fragments.ProjectListFragment;
+import com.siddhant.routine.utilities.CourseManager;
+import com.siddhant.routine.utilities.ProjectManager;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        ProjectEditDialogFragment.OnProjectDialogCloseListener {
 
     Toolbar toolbar;
     NavigationView navigationView;
     CourseManager cm;
+    ProjectManager pm;
     FragmentManager fm = getSupportFragmentManager();
+
+    private class LoadDataTask extends AsyncTask<Void, Void, Void> {
+
+        public LoadDataTask() {
+            cm = CourseManager.getInstance(MainActivity.this);
+            pm = ProjectManager.getInstance(MainActivity.this);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            cm.loadData();
+//            pm.loadData();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        cm = CourseManager.getInstance(getApplicationContext());
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar != null)
+            toolbar.setTitle("Dashboard");
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Dashboard");
-
         Fragment f = new DashboardFragment();
         fm.beginTransaction().add(R.id.fragment_container, f).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        if(drawer!=null)
+            drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if(navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this);
+            navigationView.getMenu().getItem(0).setChecked(true);
+        }
 
-        cm.loadData();
+        new LoadDataTask().execute();
     }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer!=null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(fm.getBackStackEntryCount() == 0) {
+                super.onBackPressed();
+            } else {
+                fm.popBackStack();
+                Fragment f = new DashboardFragment();
+                fm.beginTransaction().add(R.id.fragment_container, f).commit();
+                toolbar.setTitle("Dashboard");
+                navigationView.getMenu().getItem(0).setChecked(true);
+            }
         }
+    }
+
+    @Override
+    public void OnProjectDialogClose() {
+        Fragment f = new ProjectListFragment();
+        pm.saveData();
+        fm.beginTransaction().add(R.id.fragment_container, f).commit();
     }
 
     @Override
@@ -84,15 +131,20 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_feedback:
 
                 break;
+            case R.id.nav_settings:
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
+                break;
             default: break;
         }
 
         if(f != null) {
-            fm.beginTransaction().add(R.id.fragment_container, f).commit();
+            fm.beginTransaction().add(R.id.fragment_container, f).addToBackStack("tag").commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if(drawer!=null)
+            drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
  */
 public class ModulesParentViewHolder extends ParentViewHolder {
     Context context;
+    Module module;
     TextView groupTitle;
     ImageButton deleteButton;
     ArrayList<Module> moduleList;
@@ -46,7 +47,7 @@ public class ModulesParentViewHolder extends ParentViewHolder {
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                adapter.deleteModule(getAdapterPosition());
+                                adapter.deleteModule(module, getAdapterPosition());
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -63,6 +64,7 @@ public class ModulesParentViewHolder extends ParentViewHolder {
     }
 
     public void bind(Module module) {
+        this.module = module;
         int position = moduleList.indexOf(module)+1;
         groupTitle.setText(context.getString(R.string.module_list_title, position));
     }

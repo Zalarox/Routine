@@ -34,12 +34,6 @@ public class ProjectListFragment extends Fragment {
             noDataMessage.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateListData();
         pm.saveData();
     }
 
@@ -62,8 +56,9 @@ public class ProjectListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Project p = new Project("dummy project");
+                Project p = new Project("My Project");
                 adapter.addProject(p);
+
             }
         });
 

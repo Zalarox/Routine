@@ -2,8 +2,10 @@ package com.siddhant.routine.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ModuleCardListAdapter;
 import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.classes.Module;
-import com.siddhant.routine.R;
 import com.siddhant.routine.utilities.CourseManager;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class CourseActivity extends AppCompatActivity {
     TextView courseTitle;
     ArrayList<Module> moduleList;
     RecyclerView moduleCardList;
-    ModuleCardListAdapter adapter;
+    static ModuleCardListAdapter adapter;
     CourseManager cm;
 
     @Override
@@ -42,10 +44,13 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean transitionsEnabled = prefs.getBoolean("transitions", true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && transitionsEnabled) {
             getWindow().setSharedElementExitTransition(TransitionInflater.from(this).
                             inflateTransition(R.transition.shared_element_transition));
         }
+
         setContentView(R.layout.activity_course);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setElevation(0);

@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/project_due_button"
         android:layout_gravity="center"
-        android:visibility="visible"
         style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
         android:text="@string/select_date" />
 
@@ -47,19 +46,24 @@
         android:checked="false"
         android:id="@+id/course_linked_checkbox"/>
 
-    <DatePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/project_date_picker"
-        android:visibility="gone"/>
-
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_gravity="center"
-
         android:id="@+id/project_linked_course"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/project_notes_edittext"
+        android:background="@drawable/textbox_background"
+        android:lines="4"
+        android:hint="@string/notes"
+        android:gravity="top"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+        />
 </LinearLayout>

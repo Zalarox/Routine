@@ -46,9 +46,9 @@ public class JsonManager {
             return jsonString;
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             if(reader != null) {
                 reader.close();
@@ -74,13 +74,13 @@ public class JsonManager {
         ArrayList<Project> list;
         StringBuilder jsonString = readFromFile();
         list = gson.fromJson(jsonString.toString(),
-                new TypeToken<ArrayList<Course>>(){}.getType());
+                new TypeToken<ArrayList<Project>>(){}.getType());
         return list;
     }
 
-    public void saveList(ArrayList<?> courseList) throws IOException {
+    public void saveList(ArrayList<?> list) throws IOException {
 
-        String jsonString = gson.toJson(courseList,
+        String jsonString = gson.toJson(list,
                                         new TypeToken<ArrayList<?>>(){}.getType());
         Writer writer = null;
         try {
@@ -88,10 +88,10 @@ public class JsonManager {
             writer = new OutputStreamWriter(out);
             writer.write(jsonString);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             Toast.makeText(context, "File was not found.", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             Toast.makeText(context, "IO Exception occurred!", Toast.LENGTH_SHORT).show();
         } finally {
             if (writer != null) {

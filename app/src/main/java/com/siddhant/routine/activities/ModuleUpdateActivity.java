@@ -1,8 +1,10 @@
 package com.siddhant.routine.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -65,7 +67,9 @@ public class ModuleUpdateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean transitionsEnabled = prefs.getBoolean("transitions", true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && transitionsEnabled) {
             getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).
                     inflateTransition(R.transition.shared_element_transition));
         }
@@ -125,6 +129,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
         i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId);
         setResult(0, i);
         moduleDonePercent.setVisibility(View.INVISIBLE);
-        supportFinishAfterTransition(); // TODO this is causing the flicker bug
+        CourseActivity.adapter.notifyDataSetChanged();
+        supportFinishAfterTransition();
     }
 }

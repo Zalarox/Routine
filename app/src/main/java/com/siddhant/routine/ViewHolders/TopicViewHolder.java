@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
@@ -87,7 +88,17 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     @Override
     public boolean onLongClick(View v) {
-        Toast.makeText(context, topic.getTopicName(), Toast.LENGTH_SHORT).show();
+        Layout layout = topicTitle.getLayout();
+        if(layout != null) {
+            int lines = layout.getLineCount();
+            if(lines > 0) {
+                int ellipsisCount = layout.getEllipsisCount(lines-1);
+                if ( ellipsisCount > 0) {
+                    Toast.makeText(context, topic.getTopicName(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
         return true;
     }
 }

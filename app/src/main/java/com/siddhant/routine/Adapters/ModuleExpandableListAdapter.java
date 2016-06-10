@@ -2,15 +2,16 @@ package com.siddhant.routine.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bignerdranch.expandablerecyclerview.Adapter.ExpandableRecyclerAdapter;
 import com.bignerdranch.expandablerecyclerview.Model.ParentListItem;
+import com.siddhant.routine.R;
 import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.classes.Topic;
-import com.siddhant.routine.R;
 import com.siddhant.routine.viewholders.ModulesChildViewHolder;
 import com.siddhant.routine.viewholders.ModulesParentViewHolder;
 
@@ -35,10 +36,11 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
         notifyParentItemInserted(moduleList.size()-1);
     }
 
-    public void deleteModule(int position) {
-        moduleList.remove(position);
+    public void deleteModule(Module module, int adapterPosition) {
+        int position = moduleList.indexOf(module);
+        moduleList.remove(module);
         notifyParentItemRemoved(position);
-        notifyItemRangeChanged(position, moduleList.size());
+        notifyItemRangeChanged(adapterPosition, getItemCount());
     }
 
     public void addTopicChild(UUID moduleId, int position) {
@@ -90,5 +92,17 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
     public void onBindChildViewHolder(ModulesChildViewHolder childViewHolder, int position, Object childListItem) {
         Topic topic = (Topic) childListItem;
         childViewHolder.bind(topic);
+    }
+
+    @Override
+    public void onParentListItemExpanded(int position) {
+        super.onParentListItemExpanded(position);
+        for(Module module : moduleList) {
+            ArrayList<Topic> topics = (ArrayList<Topic>) module.getChildItemList();
+            if (!TextUtils.isEmpty(topics.get(topics.size() - 1).getTopicName())) {
+                addTopicChild(module.getModuleId(), topics.size());
+                notifyItemInserted(topics.size());
+            }
+        }
     }
 }

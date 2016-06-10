@@ -31,29 +31,27 @@
 
         <TextView
             android:layout_below="@id/project_title"
-            android:id="@+id/project_done_tasks"
-            android:layout_width="wrap_content"
+            android:id="@+id/project_due_date"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3/5 tasks done"
+            android:textStyle="italic"
+            android:text="Tuesday, 20 March"
             android:paddingBottom="10dp"
             />
 
-        <ProgressBar
-            android:id="@+id/project_progress_bar"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/project_done_tasks"
-            android:progress="25"
-            android:max="10000"
-            android:paddingBottom="5dp"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
-
+            android:id="@+id/project_notes"
+            android:layout_below="@id/project_due_date"
+            android:maxLines="6"
+            android:ellipsize="end" />
 
         <LinearLayout android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:orientation="horizontal"
-            android:layout_below="@id/project_progress_bar">
+            android:layout_below="@id/project_notes">
 
             <Button
                 android:id="@+id/project_edit_button"
