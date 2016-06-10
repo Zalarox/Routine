@@ -21,7 +21,7 @@ import java.util.UUID;
 /**
  * Created by Siddhant on 24-May-16.
  */
-public class ModulesChildViewHolder extends ChildViewHolder implements View.OnFocusChangeListener {
+public class ModulesChildViewHolder extends ChildViewHolder {
 
     Topic topic;
     ArrayList<Module> moduleList;
@@ -49,7 +49,7 @@ public class ModulesChildViewHolder extends ChildViewHolder implements View.OnFo
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                topic.setTopicName(childTopic.getText().toString());
+                topic.setTopicName(childTopic.getText().toString().trim());
 
                 for (Module module : moduleList) {
                     if (module.getModuleId().equals(moduleId)) {
@@ -70,6 +70,17 @@ public class ModulesChildViewHolder extends ChildViewHolder implements View.OnFo
             }
         });
 
+        childTopic.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    if (TextUtils.isEmpty(childTopic.getText()) && topicList.size() != 1) {
+                        adapter.removeTopicChild(moduleId, topicList.indexOf(topic));
+                    }
+                }
+            }
+        });
+
         childTopicDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -83,14 +94,5 @@ public class ModulesChildViewHolder extends ChildViewHolder implements View.OnFo
         moduleId = topic.getModuleId();
         childTopic.setText(topic.getTopicName());
         childTopicDone.setChecked(topic.isTopicDone());
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if(!hasFocus) {
-            if (TextUtils.isEmpty(childTopic.getText()) && topicList.size() != 1) {
-                adapter.removeTopicChild(moduleId, topicList.indexOf(topic));
-            }
-        }
     }
 }

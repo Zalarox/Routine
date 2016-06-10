@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/expandable_list_group_child_checkbox"
+        android:layout_toStartOf="@+id/expandable_list_group_child_checkbox"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/view">
@@ -19,8 +20,8 @@
             android:layout_height="match_parent"
             android:textSize = "16sp"
             android:inputType="textAutoCorrect|textCapSentences"
-            android:imeOptions="actionNext"
             android:layout_toLeftOf="@+id/expandable_list_group_child_checkbox"
+            android:layout_toStartOf="@+id/expandable_list_group_child_checkbox"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 

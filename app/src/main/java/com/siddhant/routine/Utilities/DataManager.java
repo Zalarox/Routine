@@ -34,28 +34,29 @@ public class DataManager {
         return dataManager;
     }
 
+    public Course getCourse(UUID uuid) {
+        for(Course course : courseList) {
+            if(course.getCourseId().equals(uuid)) {
+                return course;
+            }
+        }
+        return null;
+    }
+
     public void addCourse(Course c) {
         courseList.add(c);
     }
 
     public void deleteCourse(UUID uuid) {
-        for(Course course : courseList) {
-            if(course.getCourseId().equals(uuid)) {
-                courseList.remove(course);
-                break;
-            }
-        }
+        courseList.remove(getCourse(uuid));
     }
 
     public void updateCourse(UUID uuid, Course newCourse) {
-        for(Course course : courseList) {
-            if(course.getCourseId().equals(uuid)) {
-                course.setCourseName(newCourse.getCourseName());
-                course.setModuleList(newCourse.getCourseModules());
-                course.updateProgress();
-                break;
-            }
-        }
+        Course course = getCourse(uuid);
+        course.setCourseName(newCourse.getCourseName());
+        course.setModuleList(newCourse.getCourseModules());
+        course.setProjects(newCourse.getProjects());
+        course.updateProgress();
     }
 
     public Course getCourse(int position) {
@@ -66,30 +67,27 @@ public class DataManager {
         return courseList;
     }
 
-    public Course getCourse(UUID uuid) {
-        for(Course course : courseList) {
-            if(course.getCourseId().equals(uuid)) {
-                return course;
-            }
-        }
-        return null;
-    }
-
     public int getCourseListSize() {
         return courseList.size();
     }
 
-    public void addProject(Project p) {
-        projectList.add(p);
+    public void addProject(Project project) {
+        projectList.add(project);
+        if(project.isLinkedCourse()) {
+            Course course = getCourse(project.getCourseId());
+            course.addDue(project.getProjectId());
+            updateCourse(course.getCourseId(), course);
+        }
     }
 
     public void deleteProject(UUID uuid) {
-        for(Project project : projectList) {
-            if(project.getProjectId().equals(uuid)) {
-                projectList.remove(project);
-                break;
-            }
+        Project project = getProject(uuid);
+        if(project.isLinkedCourse()) {
+            Course course = getCourse(project.getCourseId());
+            course.removeDue(project.getProjectId());
+            updateCourse(course.getCourseId(), course);
         }
+        projectList.remove(project);
     }
 
     public Project getProject(int position) {
@@ -105,16 +103,11 @@ public class DataManager {
         return null;
     }
 
-
     public void updateProject(UUID uuid, Project newProject) {
-        for(Project project : projectList) {
-            if(project.getProjectId().equals(uuid)) {
-                project.setCourseId(newProject.getCourseId());
-                project.setDueDate(newProject.getDueDate());
-                project.setProjectName(newProject.getProjectName());
-                break;
-            }
-        }
+        Project project = getProject(uuid);
+        project.setCourseId(newProject.getCourseId());
+        project.setDueDate(newProject.getDueDate());
+        project.setProjectName(newProject.getProjectName());
     }
 
     public int getSize() {

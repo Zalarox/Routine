@@ -37,30 +37,27 @@ public class CourseEditActivity extends AppCompatActivity {
     private long lastClickTime = 0;
 
     private void doBackActions() {
-        course.setCourseName(courseName.getText().toString());
+        course.setCourseName(courseName.getText().toString().trim());
         moduleList = course.getCourseModules();
 
-        ArrayList<Module> empty = new ArrayList<>();
+        ArrayList<Module> emptyModules = new ArrayList<>();
+        ArrayList<Topic> emptyTopics = new ArrayList<>();
 
         for(Module module : moduleList) {
             ArrayList<Topic> topicList = (ArrayList<Topic>) module.getChildItemList();
-            Topic lastTopic = topicList.get(topicList.size() - 1);
-
-            if (lastTopic.getTopicName().isEmpty())
-                module.removeTopic(topicList.size() - 1);
 
             for (Topic topic : topicList) {
                 if (topic.getTopicName().isEmpty()) {
-                    module.removeTopic(topicList.indexOf(topic));
-                    break;
+                    emptyTopics.add(topic);
                 }
             }
+            topicList.removeAll(emptyTopics);
 
             if(topicList.isEmpty())
-                empty.add(module);
+                emptyModules.add(module);
         }
 
-        moduleList.removeAll(empty);
+        moduleList.removeAll(emptyModules);
 
         cm.saveCourseData();
         Intent i = new Intent();

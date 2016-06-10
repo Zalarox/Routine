@@ -15,6 +15,7 @@ public class Course implements Serializable {
     private float courseProgress;
     private int doneModules;
     private ArrayList<Module> courseModules;
+    private ArrayList<UUID> projects;
 
     // Constructors
 
@@ -22,6 +23,7 @@ public class Course implements Serializable {
         this.courseId = UUID.randomUUID();
         this.courseName = DEFAULT_COURSE_NAME;
         courseModules = new ArrayList<>();
+        projects = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -40,6 +42,14 @@ public class Course implements Serializable {
 
     public float getCourseProgress() {
         return courseProgress;
+    }
+
+    public void setProjects(ArrayList<UUID> projects) {
+        this.projects = projects;
+    }
+
+    public ArrayList<UUID> getProjects() {
+        return projects;
     }
 
     public void updateProgress() {
@@ -64,6 +74,16 @@ public class Course implements Serializable {
     public int getDoneModules() {
         return doneModules;
     }
+
+    public void addDue(UUID projectId) {
+        projects.add(projectId);
+    }
+
+    public void removeDue(UUID projectId) {
+        projects.remove(projectId);
+    }
+
+    public int getDueProjects() { return projects.size(); }
 
     public ArrayList<Module> getCourseModules() {
         return courseModules;

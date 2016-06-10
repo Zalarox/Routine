@@ -77,9 +77,9 @@ public class ProjectEditDialogFragment extends DialogFragment {
     public void onDetach() {
         super.onDetach();
         callback.OnProjectDialogClose();
-        project.setProjectName(title.getText().toString());
+        project.setProjectName(title.getText().toString().trim());
         project.setDueDate(dueDate);
-        project.setNotes(projectNotes.getText().toString());
+        project.setNotes(projectNotes.getText().toString().trim());
         dm.updateProject(project.getProjectId(), project);
     }
 
