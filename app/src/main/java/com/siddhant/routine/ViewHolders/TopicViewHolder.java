@@ -41,7 +41,7 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
         this.totalTopics = totalTopics;
         this.moduleDonePercent = moduleDonePercent;
         colorNotDone = ContextCompat.getColor(context, R.color.colorBackground);
-        colorDone = ContextCompat.getColor(context, R.color.colorTopicDone);
+        colorDone = ContextCompat.getColor(context, R.color.colorLightGrey);
         progressBar.setProgress((int) Math.floor(module.getProgress()*10000));
         itemView.setOnClickListener(this);
         itemView.setOnLongClickListener(this);

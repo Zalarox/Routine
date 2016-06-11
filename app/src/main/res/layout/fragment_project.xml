@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:text="@string/due_on"
         android:layout_gravity="center"
-        android:textColor="@color/colorTopicDone"/>
+        android:textColor="@color/colorLightGrey"/>
 
     <Button
         android:layout_width="match_parent"

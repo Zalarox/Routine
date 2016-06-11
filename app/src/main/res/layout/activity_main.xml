@@ -43,7 +43,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_dashboard"
         app:itemBackground="@android:color/transparent"
-        app:itemIconTint="@color/navDrawerIconGray"
+        app:itemIconTint="@color/colorDarkerGrey"
         app:menu="@menu/activity_dashboard_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

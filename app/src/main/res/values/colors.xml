@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#0D47A1</color>
     <color name="colorAccent">#FF1744</color>
     <color name="colorBackground">#424242</color>
-    <color name="colorTopicDone">#BDBDBD</color>
-    <color name="navDrawerIconGray">#6e6e6e</color>
+    <color name="colorLightGrey">#BDBDBD</color>
+    <color name="colorLowOpacityGrey">#6ebdbdbd</color>
+    <color name="colorDarkerGrey">#6e6e6e</color>
 </resources>
