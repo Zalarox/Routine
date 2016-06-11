@@ -73,20 +73,10 @@ public class DataManager {
 
     public void addProject(Project project) {
         projectList.add(project);
-        if(project.isLinkedCourse()) {
-            Course course = getCourse(project.getCourseId());
-            course.addDue(project.getProjectId());
-            updateCourse(course.getCourseId(), course);
-        }
     }
 
     public void deleteProject(UUID uuid) {
         Project project = getProject(uuid);
-        if(project.isLinkedCourse()) {
-            Course course = getCourse(project.getCourseId());
-            course.removeDue(project.getProjectId());
-            updateCourse(course.getCourseId(), course);
-        }
         projectList.remove(project);
     }
 
@@ -108,6 +98,19 @@ public class DataManager {
         project.setCourseId(newProject.getCourseId());
         project.setDueDate(newProject.getDueDate());
         project.setProjectName(newProject.getProjectName());
+        project.setLinkedCourse(newProject.isLinkedCourse());
+
+        if(project.isLinkedCourse()) {
+            UUID courseId = project.getCourseId();
+            Course course = getCourse(courseId);
+            if (project.isLinkedCourse()) {
+                course.addDue(project.getProjectId());
+                updateCourse(course.getCourseId(), course);
+            } else {
+                course.removeDue(project.getProjectId());
+                updateCourse(course.getCourseId(), course);
+            }
+        }
     }
 
     public int getSize() {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,23 +81,25 @@ public class ProjectEditDialogFragment extends DialogFragment {
         project.setProjectName(title.getText().toString().trim());
         project.setDueDate(dueDate);
         project.setNotes(projectNotes.getText().toString().trim());
+        project.setLinkedCourse(linkedCourse.isChecked());
         dm.updateProject(project.getProjectId(), project);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        getDialog().setTitle("Project Information");
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getDialog().getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        double height = displayMetrics.heightPixels/1.5f;
+        getDialog().getWindow().setLayout(displayMetrics.widthPixels, (int) height);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_project, container);
-        getDialog().setTitle("Project Information");
+
         root = (ViewGroup) view.findViewById(R.id.dialog_root);
         title = (EditText) view.findViewById(R.id.project_title);
         dueButton = (Button) view.findViewById(R.id.project_due_button);
@@ -114,11 +117,10 @@ public class ProjectEditDialogFragment extends DialogFragment {
 
         sdf = new SimpleDateFormat("E, d MMMM", Locale.US);
 
-        initializeSpinner();
         ArrayAdapter<Course> adapter = new ArrayAdapter<>(getContext(),
                 R.layout.support_simple_spinner_dropdown_item, courseList);
         courseSelector.setAdapter(adapter);
-        courseSelector.setPrompt("Select course");
+        initializeSpinner();
 
         final Calendar calendar = Calendar.getInstance();
         dueDate = project.getDueDate();
@@ -150,10 +152,8 @@ public class ProjectEditDialogFragment extends DialogFragment {
                     courseSelector.setEnabled(true);
                     Course course = (Course) courseSelector.getSelectedItem();
                     project.setCourseId(course.getCourseId());
-                    project.setLinkedCourse(true);
                 } else {
                     courseSelector.setEnabled(false);
-                    project.setLinkedCourse(false);
                 }
             }
         });
@@ -162,8 +162,12 @@ public class ProjectEditDialogFragment extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 UUID courseId = courseList.get(position).getCourseId();
+                if(project.getCourseId() != null) {
+                    UUID oldCourseId = project.getCourseId();
+                    Course course = dm.getCourse(oldCourseId);
+                    course.removeDue(project.getProjectId());
+                }
                 project.setCourseId(courseId);
-                project.setLinkedCourse(true);
             }
 
             @Override

@@ -26,7 +26,7 @@ import java.util.UUID;
  * Created by Siddhant on 20-May-16.
  */
 public class CourseEditActivity extends AppCompatActivity {
-    DataManager cm;
+    DataManager dm;
     Course course;
     UUID courseId;
     EditText courseName;
@@ -58,8 +58,9 @@ public class CourseEditActivity extends AppCompatActivity {
         }
 
         moduleList.removeAll(emptyModules);
-
-        cm.saveCourseData();
+        course.setModuleList(moduleList);
+        dm.updateCourse(course.getCourseId(), course);
+        dm.saveCourseData();
         Intent i = new Intent();
         i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId.toString());
         setResult(0, i);
@@ -94,8 +95,8 @@ public class CourseEditActivity extends AppCompatActivity {
 
         String courseIdString = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
         courseId = UUID.fromString(courseIdString);
-        cm = DataManager.getInstance(getApplicationContext());
-        course = cm.getCourse(courseId);
+        dm = DataManager.getInstance(getApplicationContext());
+        course = dm.getCourse(courseId);
 
         moduleList = course.getCourseModules();
         for(Module module : moduleList) {

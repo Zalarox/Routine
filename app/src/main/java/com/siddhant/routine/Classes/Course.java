@@ -64,7 +64,8 @@ public class Course implements Serializable {
                 doneModules++;
         }
 
-        courseProgress = (done/(float)total);
+        if(total != 0)
+            courseProgress = (done/(float)total);
     }
 
     public void setModuleList(ArrayList<Module> courseModules) {

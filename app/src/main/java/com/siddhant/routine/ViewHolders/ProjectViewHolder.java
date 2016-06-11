@@ -19,6 +19,7 @@ import com.siddhant.routine.utilities.DataManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * Created by Siddhant on 25-May-16.
@@ -78,6 +79,10 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                if(project.isLinkedCourse()) {
+                                    UUID courseId = project.getCourseId();
+                                    dm.getCourse(courseId).removeDue(project.getProjectId());
+                                }
                                 adapter.removeProject(project.getProjectId(), getAdapterPosition());
                             }
                         })
