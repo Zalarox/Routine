@@ -23,4 +23,48 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AppTheme.Batman" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimaryBatman</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBatman</item>
+        <item name="colorAccent">@color/colorAccentBatman</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Daredevil" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimaryDaredevil</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDaredevil</item>
+        <item name="colorAccent">@color/colorAccentDaredevil</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDarkDaredevil</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Hulk" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryHulk</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkHulk</item>
+        <item name="colorAccent">@color/colorAccentHulk</item>
+        <item name="android:navigationBarColor">@color/material_grey_850</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Wolverine" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryWolverine</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkWolverine</item>
+        <item name="colorAccent">@color/colorAccentWolverine</item>
+        <item name="android:navigationBarColor">@color/material_grey_800</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.GreenArrow" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimaryGreenArrow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreenArrow</item>
+        <item name="colorAccent">@color/colorAccentGreenArrow</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryGreenArrow</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

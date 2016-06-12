@@ -1,8 +1,10 @@
 package com.siddhant.routine.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +37,32 @@ public class CourseEditActivity extends AppCompatActivity {
     ModuleExpandableListAdapter adapter;
     ArrayList<Module> moduleList;
     private long lastClickTime = 0;
+
+    void initTheme() {
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        String themeName = pref.getString("theme", "0");
+        switch(themeName) {
+            case "0":
+                setTheme(R.style.AppTheme_NoActionBar);
+                break;
+            case "1":
+                setTheme(R.style.AppTheme_Hulk);
+                break;
+            case "2":
+                setTheme(R.style.AppTheme_Wolverine);
+                break;
+            case "3":
+                setTheme(R.style.AppTheme_Batman);
+                break;
+            case "4":
+                setTheme(R.style.AppTheme_Daredevil);
+                break;
+            case "5":
+                setTheme(R.style.AppTheme_GreenArrow);
+                break;
+        }
+    }
 
     private void doBackActions() {
         course.setCourseName(courseName.getText().toString().trim());
@@ -85,6 +113,7 @@ public class CourseEditActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_edit);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -3,8 +3,31 @@
     <color name="colorPrimary">#1976D2</color>
     <color name="colorPrimaryDark">#0D47A1</color>
     <color name="colorAccent">#FF1744</color>
+
+    <color name="colorPrimaryHulk">#4caf50</color>
+    <color name="colorPrimaryDarkHulk">#2e7d32</color>
+    <color name="colorAccentHulk">#ff9100</color>
+
+    <color name="colorPrimaryWolverine">#ffc107</color>
+    <color name="colorPrimaryDarkWolverine">#ffa000</color>
+    <color name="colorAccentWolverine">#FF1744</color>
+
+    <color name="colorPrimaryBatman">#757575</color>
+    <color name="colorPrimaryDarkBatman">#212121</color>
+    <color name="colorAccentBatman">#ffffff</color>
+
+    <color name="colorPrimaryDaredevil">#424242</color>
+    <color name="colorPrimaryDarkDaredevil">#212121</color>
+    <color name="colorAccentDaredevil">#ff1744</color>
+
+    <color name="colorPrimaryGreenArrow">#1b5e20</color>
+    <color name="colorPrimaryDarkGreenArrow">#212121</color>
+    <color name="colorAccentGreenArrow">#00c853</color>
+
     <color name="colorBackground">#424242</color>
+
     <color name="colorLightGrey">#BDBDBD</color>
     <color name="colorLowOpacityGrey">#6ebdbdbd</color>
     <color name="colorDarkerGrey">#6e6e6e</color>
+    <color name="black">#000000</color>
 </resources>

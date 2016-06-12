@@ -48,6 +48,32 @@ public class ModuleUpdateActivity extends AppCompatActivity {
 
     TopicListAdapter adapter;
 
+    void initTheme() {
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        String themeName = pref.getString("theme", "0");
+        switch(themeName) {
+            case "0":
+                setTheme(R.style.AppTheme_NoActionBar);
+                break;
+            case "1":
+                setTheme(R.style.AppTheme_Hulk);
+                break;
+            case "2":
+                setTheme(R.style.AppTheme_Wolverine);
+                break;
+            case "3":
+                setTheme(R.style.AppTheme_Batman);
+                break;
+            case "4":
+                setTheme(R.style.AppTheme_Daredevil);
+                break;
+            case "5":
+                setTheme(R.style.AppTheme_GreenArrow);
+                break;
+        }
+    }
+
     public void getDataFromIntent() {
         courseId = getIntent().getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
         String moduleId = getIntent().getStringExtra(getString(R.string.EXTRA_MODULE_UUID));
@@ -66,6 +92,7 @@ public class ModuleUpdateActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        initTheme();
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean transitionsEnabled = prefs.getBoolean("transitions", true);
@@ -129,7 +156,11 @@ public class ModuleUpdateActivity extends AppCompatActivity {
         i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId);
         setResult(0, i);
         moduleDonePercent.setVisibility(View.INVISIBLE);
-        CourseActivity.adapter.notifyDataSetChanged();
-        supportFinishAfterTransition();
+        if(CourseActivity.adapter != null) {
+            CourseActivity.adapter.notifyDataSetChanged();
+            supportFinishAfterTransition();
+        } else {
+            finish();
+        }
     }
 }

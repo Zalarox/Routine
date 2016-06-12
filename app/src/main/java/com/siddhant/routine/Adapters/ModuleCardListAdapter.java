@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class ModuleCardListAdapter extends RecyclerView.Adapter<ModuleCardViewHolder> {
 
-    Context context;
+    Context appContext;
     ArrayList<Module> moduleList;
 
     public ModuleCardListAdapter(ArrayList<Module> moduleList) {
@@ -26,9 +26,9 @@ public class ModuleCardListAdapter extends RecyclerView.Adapter<ModuleCardViewHo
 
     @Override
     public ModuleCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.card_module_view, parent, false);
-        return new ModuleCardViewHolder(context, view);
+        appContext = parent.getContext();
+        View view = LayoutInflater.from(appContext).inflate(R.layout.card_module_view, parent, false);
+        return new ModuleCardViewHolder(appContext, view);
     }
 
     @Override

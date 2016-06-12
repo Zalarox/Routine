@@ -8,6 +8,36 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Hulk" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryHulk</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkHulk</item>
+        <item name="colorAccent">@color/colorAccentHulk</item>
+    </style>
+
+    <style name="AppTheme.Wolverine" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryWolverine</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkWolverine</item>
+        <item name="colorAccent">@color/colorAccentWolverine</item>
+    </style>
+
+    <style name="AppTheme.Batman" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimaryBatman</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBatman</item>
+        <item name="colorAccent">@color/colorAccentBatman</item>
+    </style>
+
+    <style name="AppTheme.Daredevil" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimaryDaredevil</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDaredevil</item>
+        <item name="colorAccent">@color/colorAccentDaredevil</item>
+    </style>
+
+    <style name="AppTheme.GreenArrow" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/colorPrimaryGreenArrow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreenArrow</item>
+        <item name="colorAccent">@color/colorAccentGreenArrow</item>
+    </style>
+
     <style name="ActionBarNoElevation" parent="AppTheme">
         <item name="elevation">0dp</item>
         <item name="android:windowContentOverlay">@null</item>

@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="General">
+        android:title="Display">
 
         <SwitchPreference
             android:title="Transitions"
-            android:summary="Enable/Disable transitions on the app"
+            android:summary="Enable/Disable transitions on the application"
             android:key="transitions"
             android:defaultValue="true" />
+
+        <ListPreference
+            android:title="Application theme"
+            android:summary="Choose the color scheme of the application"
+            android:key="theme"
+            android:entries="@array/theme_names_array"
+            android:entryValues="@array/theme_values_array"
+            android:defaultValue="0" />
 
     </PreferenceCategory>
 </PreferenceScreen>

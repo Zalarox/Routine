@@ -1,8 +1,9 @@
 package com.siddhant.routine.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,11 +15,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.siddhant.routine.R;
+import com.siddhant.routine.classes.Course;
 import com.siddhant.routine.fragments.CourseListFragment;
 import com.siddhant.routine.fragments.DashboardFragment;
 import com.siddhant.routine.fragments.ProjectEditDialogFragment;
 import com.siddhant.routine.fragments.ProjectListFragment;
 import com.siddhant.routine.utilities.DataManager;
+
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -28,40 +32,49 @@ public class MainActivity extends AppCompatActivity implements
     NavigationView navigationView;
     DataManager dm;
     FragmentManager fm = getSupportFragmentManager();
-
-    private class LoadDataTask extends AsyncTask<Void, Void, Void> {
-
-        public LoadDataTask() {
-            dm = DataManager.getInstance(MainActivity.this);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            dm.loadCourseData();
-            dm.loadProjectData();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-        }
-    }
+    public static String themeName;
 
     @Override
     protected void onResume() {
         super.onResume();
     }
 
+    void initTheme() {
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        themeName = pref.getString("theme", "0");
+
+        switch(themeName) {
+            case "0":
+                setTheme(R.style.AppTheme_NoActionBar);
+                break;
+            case "1":
+                setTheme(R.style.AppTheme_Hulk);
+                break;
+            case "2":
+                setTheme(R.style.AppTheme_Wolverine);
+                break;
+            case "3":
+                setTheme(R.style.AppTheme_Batman);
+                break;
+            case "4":
+                setTheme(R.style.AppTheme_Daredevil);
+                break;
+            case "5":
+                setTheme(R.style.AppTheme_GreenArrow);
+                break;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        initTheme();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null)
             toolbar.setTitle("Dashboard");
         setSupportActionBar(toolbar);
-        Fragment f = new DashboardFragment();
-        fm.beginTransaction().add(R.id.fragment_container, f).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,7 +89,15 @@ public class MainActivity extends AppCompatActivity implements
             navigationView.getMenu().getItem(0).setChecked(true);
         }
 
-        new LoadDataTask().execute();
+        dm = DataManager.getInstance(this);
+        dm.loadCourseData();
+        dm.loadProjectData();
+
+        new CourseListFragment();
+        new ProjectListFragment();
+
+        Fragment f = new DashboardFragment();
+        fm.beginTransaction().replace(R.id.fragment_container, f).commit();
     }
 
     @Override
@@ -85,12 +106,11 @@ public class MainActivity extends AppCompatActivity implements
         if (drawer!=null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(fm.getBackStackEntryCount() == 0) {
+            if(toolbar.getTitle().equals("Dashboard")) {
                 super.onBackPressed();
             } else {
-                fm.popBackStack();
                 Fragment f = new DashboardFragment();
-                fm.beginTransaction().add(R.id.fragment_container, f).commit();
+                fm.beginTransaction().replace(R.id.fragment_container, f).commit();
                 toolbar.setTitle("Dashboard");
                 navigationView.getMenu().getItem(0).setChecked(true);
             }
@@ -136,12 +156,20 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         if(f != null) {
-            fm.beginTransaction().add(R.id.fragment_container, f).addToBackStack("tag").commit();
+            fm.beginTransaction().replace(R.id.fragment_container, f).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(drawer!=null)
             drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String courseIdString = data.getStringExtra(getString(R.string.EXTRA_COURSE_UUID));
+        dm = DataManager.getInstance(getApplicationContext());
+        Course course = dm.getCourse(UUID.fromString(courseIdString));
+        dm.updateCourse(course.getCourseId(), course);
     }
 }

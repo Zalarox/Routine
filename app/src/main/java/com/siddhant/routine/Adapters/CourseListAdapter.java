@@ -17,27 +17,28 @@ import com.siddhant.routine.viewholders.CourseViewHolder;
 public class CourseListAdapter extends RecyclerView.Adapter<CourseViewHolder> {
 
     DataManager cm;
-    Context context;
+    Context appContext;
+
 
     @Override
     public CourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        context = parent.getContext();
-        cm = DataManager.getInstance(context);
-        View view = LayoutInflater.from(context)
+        appContext = parent.getContext();
+        cm = DataManager.getInstance(appContext);
+        View view = LayoutInflater.from(appContext)
                 .inflate(R.layout.list_item_courses, parent, false);
         return new CourseViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(CourseViewHolder holder, int position) {
-        cm = DataManager.getInstance(context);
+        cm = DataManager.getInstance(appContext);
         Course course = cm.getCourse(position);
         holder.bindCourse(course);
     }
 
     @Override
     public int getItemCount() {
-        cm = DataManager.getInstance(context);
+        cm = DataManager.getInstance(appContext);
         return cm.getCourseListSize();
     }
 }

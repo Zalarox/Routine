@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.siddhant.routine.R;
@@ -29,11 +30,38 @@ import java.util.UUID;
  */
 public class CourseActivity extends AppCompatActivity {
     Course course;
+    FrameLayout frameLayout;
     TextView courseTitle;
     ArrayList<Module> moduleList;
     RecyclerView moduleCardList;
     static ModuleCardListAdapter adapter;
     DataManager cm;
+
+    void initTheme() {
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        String themeName = pref.getString("theme", "0");
+        switch(themeName) {
+            case "0":
+                setTheme(R.style.AppTheme_NoActionBar);
+                break;
+            case "1":
+                setTheme(R.style.AppTheme_Hulk);
+                break;
+            case "2":
+                setTheme(R.style.AppTheme_Wolverine);
+                break;
+            case "3":
+                setTheme(R.style.AppTheme_Batman);
+                break;
+            case "4":
+                setTheme(R.style.AppTheme_Daredevil);
+                break;
+            case "5":
+                setTheme(R.style.AppTheme_GreenArrow);
+                break;
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -43,6 +71,7 @@ public class CourseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        initTheme();
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean transitionsEnabled = prefs.getBoolean("transitions", true);
@@ -55,6 +84,8 @@ public class CourseActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        frameLayout = (FrameLayout) findViewById(R.id.activity_course_header);
 
         courseTitle = (TextView) findViewById(R.id.activity_course_title);
         cm = DataManager.getInstance(getApplicationContext());

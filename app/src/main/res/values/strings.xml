@@ -28,4 +28,16 @@
     <string name="course_linked">Linked to a course</string>
     <string name="no_due_date">No due date</string>
     <string name="notes">Notes</string>
+    <string name="dashboard_course_stats">%1$d total courses, %2$d%% total progress</string>
+    <string name="another_course_button">Another course</string>
+    <string name="another_module_button">Another module</string>
+    <string name="dashboard_assignment_text">This week you have %1$d assignments due,
+        and in total %2$d</string>
+    <string name="dashboard_next_module_hint">Hey, why not do this one next?</string>
+    <string name="project_name_placeholder">Project Name</string>
+    <string name="project_date_placeholder">Tuesday, 20 March</string>
+    <string name="project_notes_placeholder">3 line\nText\nHere</string>
+    <string name="button_update">Update</string>
+    <string name="button_finished">Finished</string>
+
 </resources>

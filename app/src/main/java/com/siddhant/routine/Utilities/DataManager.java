@@ -25,6 +25,8 @@ public class DataManager {
         this.appContext = appContext;
         this.courseJsonManager = new JsonManager(appContext, "routine-c-db");
         this.projectJsonManager = new JsonManager(appContext, "routine-p-db");
+        courseList = new ArrayList<>();
+        projectList = new ArrayList<>();
     }
 
     public static DataManager getInstance(Context c) {

@@ -7,6 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
+        android:id="@+id/dashboard_stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -14,10 +15,11 @@
         android:layout_marginRight="16dp"
         android:paddingBottom="4dp"
         android:gravity="center"
-        android:text="13 total courses, 56% total progress"
+        android:text="@string/dashboard_course_stats"
         android:textColor="@color/colorDarkerGrey" />
 
     <ProgressBar
+        android:id="@+id/total_progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -38,7 +40,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/colorDarkerGrey"
-        android:text="Hey, why not do this one next?"
+        android:text="@string/dashboard_next_module_hint"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -59,7 +61,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:text="Another course" />
+            android:text="@string/another_course_button" />
 
         <Button
             android:layout_width="0dp"
@@ -68,7 +70,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             style="@style/Base.Widget.AppCompat.Button.Borderless"
-            android:text="Another module" />
+            android:text="@string/another_module_button" />
 
     </LinearLayout>
 
@@ -82,11 +84,12 @@
         android:background="@color/colorLowOpacityGrey"/>
 
     <TextView
+        android:id="@+id/dashboard_assignment_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/colorDarkerGrey"
         android:gravity="center"
-        android:text="This week you have 2 assignments due, and in total 12"
+        android:text="@string/dashboard_assignment_text"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

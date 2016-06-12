@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Project Name"
+            android:text="@string/project_name_placeholder"
             android:textSize="20sp"
             android:paddingBottom="10dp"/>
 
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="italic"
-            android:text="Tuesday, 20 March"
+            android:text="@string/project_date_placeholder"
             android:paddingBottom="10dp"
             />
 
@@ -45,12 +45,13 @@
             android:id="@+id/project_notes"
             android:layout_below="@id/project_due_date"
             android:maxLines="3"
-            android:text="3 line\nText\nHere"
+            android:text="@string/project_notes_placeholder"
             android:ellipsize="end" />
 
         <LinearLayout android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:orientation="horizontal"
             android:layout_below="@id/project_notes">
 
@@ -59,14 +60,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:text="Update"/>
+                android:text="@string/button_update"/>
 
             <Button
                 android:id="@+id/project_finished_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:text="Finished"/>
+                android:text="@string/button_finished"/>
         </LinearLayout>
 
     </RelativeLayout>
