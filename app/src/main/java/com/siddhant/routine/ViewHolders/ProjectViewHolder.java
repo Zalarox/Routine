@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ProjectListAdapter;
@@ -53,6 +54,29 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
         dm = DataManager.getInstance(context);
         this.adapter = adapter;
         finished.setOnClickListener(this);
+        update.setOnClickListener(this);
+        fm = ((AppCompatActivity)context).getSupportFragmentManager();
+    }
+
+    public ProjectViewHolder(View itemView) {
+        super(itemView);
+        itemView.setClickable(true);
+        projectName = (TextView) itemView.findViewById(R.id.project_title);
+        projectDueDate = (TextView) itemView.findViewById(R.id.project_due_date);
+        projectNotes = (TextView) itemView.findViewById(R.id.project_notes);
+        finished = (Button) itemView.findViewById(R.id.project_finished_button);
+        update = (Button) itemView.findViewById(R.id.project_edit_button);
+
+        context = itemView.getContext();
+        sdf = new SimpleDateFormat("EEEE, d MMMM", Locale.US);
+        dm = DataManager.getInstance(context);
+
+        finished.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Not implemented yet...", Toast.LENGTH_SHORT).show();
+            }
+        });
         update.setOnClickListener(this);
         fm = ((AppCompatActivity)context).getSupportFragmentManager();
     }

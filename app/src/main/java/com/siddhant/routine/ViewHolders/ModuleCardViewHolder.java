@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.siddhant.routine.R;
-import com.siddhant.routine.activities.MainActivity;
 import com.siddhant.routine.activities.ModuleUpdateActivity;
 import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.utilities.DataManager;
@@ -41,10 +39,6 @@ public class ModuleCardViewHolder extends RecyclerView.ViewHolder implements Vie
         super(itemView);
         this.context = context;
         cardView = (CardView) itemView.findViewById(R.id.module_card_card_view);
-        int theme = Integer.parseInt(MainActivity.themeName);
-        if(theme > 2) {
-            cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorDarkerGrey));
-        }
         cardView.setOnClickListener(this);
         title = (TextView) itemView.findViewById(R.id.module_card_title);
         totalTopics = (TextView) itemView.findViewById(R.id.module_card_total_topics);

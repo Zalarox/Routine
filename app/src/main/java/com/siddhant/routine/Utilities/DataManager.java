@@ -73,6 +73,16 @@ public class DataManager {
         return courseList.size();
     }
 
+    public float getCourseTotalProgress() {
+        float progress = 0;
+        for(Course course : courseList) {
+            progress += course.getCourseProgress();
+        }
+        progress /= courseList.size();
+
+        return progress;
+    }
+
     public void addProject(Project project) {
         projectList.add(project);
     }
@@ -93,6 +103,14 @@ public class DataManager {
             }
         }
         return null;
+    }
+
+    public ArrayList<Project> getProjectList() {
+        return projectList;
+    }
+
+    public int getProjectListSize() {
+        return projectList.size();
     }
 
     public void updateProject(UUID uuid, Project newProject) {
