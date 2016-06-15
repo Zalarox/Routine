@@ -27,7 +27,7 @@
     <color name="colorBackground">#424242</color>
 
     <color name="colorLightGrey">#BDBDBD</color>
-    <color name="colorLowOpacityGrey">#6ebdbdbd</color>
+    <color name="colorLowOpacityGrey">#a0bdbdbd</color>
     <color name="colorDarkerGrey">#6e6e6e</color>
     <color name="black">#000000</color>
 </resources>

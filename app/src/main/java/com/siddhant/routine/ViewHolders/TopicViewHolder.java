@@ -72,6 +72,8 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
             topicTitle.setTextColor(colorNotDone);
         }
         animateProgress();
+        totalTopics.setText(context.getString(R.string.module_topics, module.getDoneTopics(),
+                module.getChildItemList().size()));
     }
 
     @Override

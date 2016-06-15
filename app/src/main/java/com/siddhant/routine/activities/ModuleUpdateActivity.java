@@ -156,7 +156,8 @@ public class ModuleUpdateActivity extends AppCompatActivity {
         i.putExtra(getString(R.string.EXTRA_COURSE_UUID), courseId);
         setResult(0, i);
         moduleDonePercent.setVisibility(View.INVISIBLE);
-        if(CourseActivity.adapter != null) {
+
+        if(getCallingActivity().getShortClassName().equals(".activities.CourseActivity")) {
             CourseActivity.adapter.notifyDataSetChanged();
             supportFinishAfterTransition();
         } else {

@@ -2,6 +2,7 @@ package com.siddhant.routine.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.siddhant.routine.R;
 import com.siddhant.routine.classes.Course;
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements
         new ProjectListFragment();
 
         Fragment f = new DashboardFragment();
-        fm.beginTransaction().replace(R.id.fragment_container, f).commit();
+        fm.beginTransaction().replace(R.id.fragment_container, f, "fragment").commit();
     }
 
     @Override
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements
                 super.onBackPressed();
             } else {
                 Fragment f = new DashboardFragment();
-                fm.beginTransaction().replace(R.id.fragment_container, f).commit();
+                fm.beginTransaction().replace(R.id.fragment_container, f, "fragment").commit();
                 toolbar.setTitle("Dashboard");
                 navigationView.getMenu().getItem(0).setChecked(true);
             }
@@ -119,9 +121,11 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void OnProjectDialogClose() {
-        Fragment f = new ProjectListFragment();
         dm.saveProjectData();
-        fm.beginTransaction().add(R.id.fragment_container, f).commit();
+        if(!toolbar.getTitle().equals("Dashboard")) {
+            Fragment f = new ProjectListFragment();
+            fm.beginTransaction().replace(R.id.fragment_container, f, "fragment").commit();
+        }
     }
 
     @Override
@@ -142,11 +146,16 @@ public class MainActivity extends AppCompatActivity implements
                 f = new ProjectListFragment();
                 toolbar.setTitle("Projects");
                 break;
+            case R.id.nav_exams:
+                Toast.makeText(this, "Not available yet", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.nav_share:
-
                 break;
             case R.id.nav_feedback:
-
+                String url = "http://www.google.com/";
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                browserIntent.setData(Uri.parse(url));
+                startActivity(browserIntent);
                 break;
             case R.id.nav_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
@@ -156,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         if(f != null) {
-            fm.beginTransaction().replace(R.id.fragment_container, f).commit();
+            fm.beginTransaction().replace(R.id.fragment_container, f, "fragment").commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -171,5 +180,8 @@ public class MainActivity extends AppCompatActivity implements
         dm = DataManager.getInstance(getApplicationContext());
         Course course = dm.getCourse(UUID.fromString(courseIdString));
         dm.updateCourse(course.getCourseId(), course);
+        DashboardFragment frag = (DashboardFragment) fm.findFragmentByTag("fragment");
+        frag.bindProjectCard();
+        frag.bindModuleCard();
     }
 }

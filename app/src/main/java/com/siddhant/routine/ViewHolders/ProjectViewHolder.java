@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ProjectListAdapter;
@@ -74,7 +73,28 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
         finished.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Not implemented yet...", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Delete project")
+                        .setMessage("Are you sure you want to remove this project?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(project.isLinkedCourse()) {
+                                    UUID courseId = project.getCourseId();
+                                    dm.getCourse(courseId).removeDue(project.getProjectId());
+                                }
+                                dm.deleteProject(project.getProjectId());
+                                dm.saveProjectData();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // no implementation required
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
         update.setOnClickListener(this);

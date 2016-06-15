@@ -52,6 +52,15 @@ public class Course implements Serializable {
         return projects;
     }
 
+    public Module getModule(UUID moduleId) {
+        for(Module module : courseModules) {
+            if(module.getModuleId().equals(moduleId)) {
+                return module;
+            }
+        }
+        return null;
+    }
+
     public void updateProgress() {
         int total=0;
         int done=0;

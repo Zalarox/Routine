@@ -33,7 +33,8 @@
             android:name=".activities.ModuleUpdateActivity"
             android:parentActivityName=".activities.CourseActivity"
             android:theme="@style/CustomDialogActivity" />
-        <activity android:name=".activities.SettingsActivity"></activity>
+        <activity android:name=".activities.SettingsActivity"
+            android:parentActivityName=".activities.MainActivity" />
     </application>
 
 </manifest>
