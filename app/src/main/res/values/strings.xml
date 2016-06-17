@@ -28,16 +28,19 @@
     <string name="course_linked">Linked to a course</string>
     <string name="no_due_date">No due date</string>
     <string name="notes">Notes</string>
-    <string name="dashboard_course_stats">You\'ve made %1$d%% total progress across %2$d courses</string>
+    <string name="dashboard_course_stats"><![CDATA[<font color=\'#FF1744\'><b>%1$d%%</b></font>
+        total progress across <font color=\'#FF1744\'><b>%2$d</b></font> courses]]></string>
     <string name="another_course_button">Another course</string>
     <string name="another_module_button">Another module</string>
-    <string name="dashboard_assignment_text">This week you have %1$d assignments due,
-        and in total %2$d</string>
-    <string name="dashboard_next_module_hint">How about doing %1$s?</string>
+    <string name="dashboard_assignment_text"><![CDATA[This week you have <font color=\'#FF1744\'>
+        <b>%1$d/%2$d</b></font> assignments due]]></string>
+    <string name="dashboard_next_module_hint"><![CDATA[You can try doing <font color=\'#FF1744\'><b>%1$s
+        </b></font>]]></string>
     <string name="project_name_placeholder">Project Name</string>
     <string name="project_date_placeholder">Tuesday, 20 March</string>
     <string name="project_notes_placeholder">3 line\nText\nHere</string>
     <string name="button_update">Update</string>
     <string name="button_finished">Finished</string>
+    <string name="next">Next</string>
 
 </resources>

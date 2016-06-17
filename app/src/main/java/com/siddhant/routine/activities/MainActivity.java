@@ -125,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements
         if(!toolbar.getTitle().equals("Dashboard")) {
             Fragment f = new ProjectListFragment();
             fm.beginTransaction().replace(R.id.fragment_container, f, "fragment").commit();
+        } else {
+            DashboardFragment frag = (DashboardFragment) fm.findFragmentByTag("fragment");
+            frag.bindProjectCard();
         }
     }
 
@@ -181,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements
         Course course = dm.getCourse(UUID.fromString(courseIdString));
         dm.updateCourse(course.getCourseId(), course);
         DashboardFragment frag = (DashboardFragment) fm.findFragmentByTag("fragment");
-        frag.bindProjectCard();
         frag.bindModuleCard();
     }
 }

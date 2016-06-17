@@ -1,7 +1,10 @@
 package com.siddhant.routine.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
     private LayoutInflater inflater;
     private ArrayList<Module> moduleList;
     private Context context;
+    RecyclerView recyclerView;
 
     public void addNewModule(UUID uuid) {
         Module m = new Module(uuid);
@@ -41,6 +45,17 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
         moduleList.remove(module);
         notifyParentItemRemoved(position);
         notifyItemRangeChanged(adapterPosition, getItemCount());
+
+        SharedPreferences prefs  = ((Activity)context).getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String suggestedId = prefs.getString("suggestedModule", "");
+        if(!suggestedId.isEmpty())
+            if(module.getModuleId().equals(UUID.fromString(suggestedId))) {
+                editor.putString("suggestedModule", "");
+                editor.apply();
+            }
+
     }
 
     public void addTopicChild(UUID moduleId, int position) {
@@ -63,11 +78,13 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
     }
 
     public ModuleExpandableListAdapter(Context context,
-                                       @NonNull List<? extends ParentListItem> parentItemList) {
+                                       @NonNull List<? extends ParentListItem> parentItemList,
+                                       RecyclerView recyclerView) {
         super(parentItemList);
         moduleList = (ArrayList<Module>) parentItemList;
         inflater = LayoutInflater.from(context);
         this.context = context;
+        this.recyclerView = recyclerView;
     }
 
     @Override
@@ -79,7 +96,7 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
     @Override
     public ModulesChildViewHolder onCreateChildViewHolder(ViewGroup childViewGroup) {
         View moduleView = inflater.inflate(R.layout.expandable_list_item_child, childViewGroup, false);
-        return new ModulesChildViewHolder(this, moduleView);
+        return new ModulesChildViewHolder(this, moduleView, recyclerView);
     }
 
     @Override

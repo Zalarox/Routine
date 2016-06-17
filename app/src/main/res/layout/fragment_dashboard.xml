@@ -15,7 +15,7 @@
         android:layout_marginRight="16dp"
         android:paddingBottom="4dp"
         android:gravity="center"
-        android:text="@string/dashboard_course_stats"
+        android:text="Placeholder 50/50"
         android:textColor="@color/colorDarkerGrey" />
 
     <ProgressBar
@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorDarkerGrey"
         android:gravity="center"
-        android:text="@string/dashboard_assignment_text"
+        android:text="Placeholder 1 line string"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

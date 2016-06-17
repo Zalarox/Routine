@@ -133,7 +133,7 @@ public class CourseEditActivity extends AppCompatActivity {
                 module.addTopic();
             }
         }
-        adapter = new ModuleExpandableListAdapter(this, course.getCourseModules());
+        adapter = new ModuleExpandableListAdapter(this, course.getCourseModules(), expandableListView);
         expandableListView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         expandableListView.setAdapter(adapter);
 

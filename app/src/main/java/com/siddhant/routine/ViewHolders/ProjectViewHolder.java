@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.siddhant.routine.R;
 import com.siddhant.routine.adapters.ProjectListAdapter;
 import com.siddhant.routine.classes.Project;
+import com.siddhant.routine.fragments.DashboardFragment;
 import com.siddhant.routine.fragments.ProjectEditDialogFragment;
 import com.siddhant.routine.utilities.DataManager;
 
@@ -85,6 +86,10 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
                                 }
                                 dm.deleteProject(project.getProjectId());
                                 dm.saveProjectData();
+                                fm = ((AppCompatActivity)context).getSupportFragmentManager();
+                                DashboardFragment f = (DashboardFragment)
+                                        fm.findFragmentByTag("fragment");
+                                f.updateProjectCard();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -98,7 +103,6 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
             }
         });
         update.setOnClickListener(this);
-        fm = ((AppCompatActivity)context).getSupportFragmentManager();
     }
 
     public void bindProject(Project project) {

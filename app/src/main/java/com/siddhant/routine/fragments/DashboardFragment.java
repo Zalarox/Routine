@@ -1,14 +1,17 @@
 package com.siddhant.routine.fragments;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +25,8 @@ import com.siddhant.routine.utilities.SuggestionManager;
 import com.siddhant.routine.viewholders.ModuleCardViewHolder;
 import com.siddhant.routine.viewholders.ProjectViewHolder;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -41,6 +46,7 @@ public class DashboardFragment extends Fragment {
 
     Button courseButton;
     Button moduleButton;
+    Button projectButton;
 
     Course course;
     Module module;
@@ -60,28 +66,74 @@ public class DashboardFragment extends Fragment {
             initSuggestions();
     }
 
+    public void setNoCourses() {
+        moduleCardView.setVisibility(View.GONE);
+        courseButton.setEnabled(false);
+        moduleButton.setEnabled(false);
+        suggestedCourseHint.setText("No unfinished courses found...");
+        suggestedCourseHint.setMinimumHeight
+                ((int)(150 * getResources().getDisplayMetrics().density));
+
+        SharedPreferences prefs  = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        module = null;
+        course = null;
+        editor.putString("suggestedCourse", "");
+        editor.putString("suggestedModule", "");
+        editor.apply();
+    }
+
+    public void setNoProjects() {
+        projectCardView.setVisibility(View.GONE);
+        suggestedProjectHint.setText("No projects found...");
+
+        SharedPreferences prefs  = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        project = null;
+        editor.putString("suggestedProject", "");
+        editor.apply();
+    }
+
     public void bindModuleCard() {
-        moduleCardViewHolder.bind(module);
-        suggestedCourseHint.setText(getString(R.string.dashboard_next_module_hint,
-                course.getCourseName()));
+        if(module.getDoneTopics() != module.getChildItemList().size()) {
+            moduleCardViewHolder.bind(module);
+            suggestedCourseHint.setMinimumHeight(0);
+            suggestedCourseHint.setText(Html.fromHtml(getString(R.string.dashboard_next_module_hint,
+                    course.getCourseName())));
+        } else {
+            setNoCourses();
+        }
+
+        int totalProgress = (int) Math.floor(dm.getCourseTotalProgress()*100);
+        ObjectAnimator animation = ObjectAnimator.ofInt(totalProgressBar, "progress",
+                totalProgress);
+        animation.setDuration(500);
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();
+        courseStats.setText(Html.fromHtml(getString(
+                R.string.dashboard_course_stats, totalProgress, totalCourses)));
     }
 
     public void bindProjectCard() {
-        projectViewHolder.bindProject(project);
-        suggestedProjectHint.setText(getString(R.string.dashboard_assignment_text,
-                totalProjects, totalProjects));
+        if(project != null) {
+            projectViewHolder.bindProject(project);
+            suggestedProjectHint.setText(Html.fromHtml(getString(R.string.dashboard_assignment_text,
+                totalProjects, totalProjects)));
+        } else {
+            setNoProjects();
+        }
     }
 
     public void initSuggestions() {
-        SharedPreferences prefs  = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         totalProjects = dm.getProjectListSize();
 
-        if(totalCourses == 0) {
+        if (totalCourses == 0) {
             editor.putString("suggestedCourse", "");
             editor.putString("suggestedModule", "");
         }
-        if(totalProjects == 0) {
+        if (totalProjects == 0) {
             editor.putString("suggestedProject", "");
         }
         editor.apply();
@@ -90,18 +142,33 @@ public class DashboardFragment extends Fragment {
         String moduleId = prefs.getString("suggestedModule", "");
         String projectId = prefs.getString("suggestedProject", "");
 
-
-        if(courseId.isEmpty() || moduleId.isEmpty() || projectId.isEmpty()) {
-            updateSuggestions();
+        if (courseId.isEmpty() || moduleId.isEmpty()) {
+            updateModuleCard(true);
         } else {
-            if(totalCourses > 0) {
+            if (totalCourses > 0) {
                 course = dm.getCourse(UUID.fromString(courseId));
                 module = course.getModule(UUID.fromString(moduleId));
                 bindModuleCard();
             }
-            if(totalProjects > 0) {
+        }
+        if (projectId.isEmpty()) {
+            updateProjectCard();
+        } else {
+            if (totalProjects > 0) {
                 project = dm.getProject(UUID.fromString(projectId));
-                bindProjectCard();
+
+                if (project != null && project.getDueDate() == null) {
+                    bindProjectCard();
+                } else if (project != null) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.DAY_OF_MONTH, 7);
+                    if (project.getDueDate().before(new Date(cal.getTimeInMillis())))
+                        bindProjectCard();
+                    else
+                        updateProjectCard();
+                } else {
+                    setNoProjects();
+                }
             }
         }
     }
@@ -128,16 +195,10 @@ public class DashboardFragment extends Fragment {
             moduleButton.setEnabled(true);
             editor.putString("suggestedCourse", course.getCourseId().toString());
             editor.putString("suggestedModule", module.getModuleId().toString());
+            editor.apply();
         } else {
-            moduleCardView.setVisibility(View.GONE);
-            courseButton.setEnabled(false);
-            moduleButton.setEnabled(false);
-            suggestedCourseHint.setText("No courses found...");
-            suggestedCourseHint.setMinimumHeight
-                    ((int)(150 * getResources().getDisplayMetrics().density));
+            setNoCourses();
         }
-
-        editor.apply();
     }
 
     public void updateProjectCard() {
@@ -145,22 +206,18 @@ public class DashboardFragment extends Fragment {
         SharedPreferences.Editor editor = prefs.edit();
 
         totalProjects = dm.getProjectListSize();
-        if(totalProjects > 0) {
-            project = sm.getProjectSuggestion();
+
+        if(totalProjects > 0)
+            project = sm.getProjectSuggestion(project);
+
+        if(totalProjects > 0 && project != null) {
             bindProjectCard();
             projectCardView.setVisibility(View.VISIBLE);
             editor.putString("suggestedProject", project.getProjectId().toString());
         } else {
-            projectCardView.setVisibility(View.GONE);
-            suggestedProjectHint.setText("No projects found...");
+            setNoProjects();
         }
-
         editor.apply();
-    }
-
-    public void updateSuggestions() {
-        updateModuleCard(true);
-        updateProjectCard();
     }
 
     @Nullable
@@ -180,6 +237,7 @@ public class DashboardFragment extends Fragment {
 
         courseButton = (Button) v.findViewById(R.id.dashboard_course_button);
         moduleButton = (Button) v.findViewById(R.id.dashboard_module_button);
+        projectButton = (Button) v.findViewById(R.id.project_next_button);
 
         projectViewHolder = new ProjectViewHolder(projectCardView);
         moduleCardViewHolder = new ModuleCardViewHolder(getContext(), moduleCardView);
@@ -188,7 +246,8 @@ public class DashboardFragment extends Fragment {
         totalCourses = dm.getCourseListSize();
         int totalProgress = (int) Math.floor(dm.getCourseTotalProgress()*100);
         totalProgressBar.setProgress(totalProgress);
-        courseStats.setText(getString(R.string.dashboard_course_stats, totalProgress, totalCourses));
+        courseStats.setText(Html.fromHtml(getString(
+                R.string.dashboard_course_stats, totalProgress, totalCourses)));
 
         courseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,13 +255,19 @@ public class DashboardFragment extends Fragment {
                 updateModuleCard(true);
             }
         });
-
         moduleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateModuleCard(false);
             }
         });
+        projectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateProjectCard();
+            }
+        });
+        projectButton.setVisibility(View.VISIBLE);
 
         initSuggestions();
         firstRun = false;

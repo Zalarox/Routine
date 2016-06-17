@@ -2,6 +2,7 @@ package com.siddhant.routine.viewholders;
 
 import android.content.Context;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,9 +32,12 @@ public class ModulesChildViewHolder extends ChildViewHolder {
     CheckBox childTopicDone;
     ModuleExpandableListAdapter adapter;
     Context context;
+    RecyclerView recyclerView;
 
-    public ModulesChildViewHolder(final ModuleExpandableListAdapter adapter, View itemView) {
+    public ModulesChildViewHolder(final ModuleExpandableListAdapter adapter, View itemView,
+                                  final RecyclerView recyclerView) {
         super(itemView);
+        this.recyclerView = recyclerView;
 
         childTopic = (TextInputEditText) itemView.findViewById(R.id.expandable_list_group_child_text);
         childTopicDone = (CheckBox) itemView.findViewById
@@ -63,6 +67,7 @@ public class ModulesChildViewHolder extends ChildViewHolder {
                         adapter.addTopicChild(moduleId, topicList.size());
                     }
                 }
+
             }
 
             @Override

@@ -77,12 +77,12 @@ public class ProjectEditDialogFragment extends DialogFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        callback.OnProjectDialogClose();
         project.setProjectName(title.getText().toString().trim());
         project.setDueDate(dueDate);
         project.setNotes(projectNotes.getText().toString().trim());
         project.setLinkedCourse(linkedCourse.isChecked());
         dm.updateProject(project.getProjectId(), project);
+        callback.OnProjectDialogClose();
     }
 
     @Override
@@ -112,10 +112,15 @@ public class ProjectEditDialogFragment extends DialogFragment {
         dm = DataManager.getInstance(getContext());
         project = dm.getProject(UUID.fromString(projectId));
         title.setText(project.getProjectName());
+        sdf = new SimpleDateFormat("E, d MMMM", Locale.US);
+
+        if(project.getDueDate() != null) {
+            String date = sdf.format(project.getDueDate());
+            dueButton.setText(date);
+        }
         projectNotes.setText(project.getNotes());
         final ArrayList<Course> courseList = dm.getCourseList();
 
-        sdf = new SimpleDateFormat("E, d MMMM", Locale.US);
 
         ArrayAdapter<Course> adapter = new ArrayAdapter<>(getContext(),
                 R.layout.support_simple_spinner_dropdown_item, courseList);

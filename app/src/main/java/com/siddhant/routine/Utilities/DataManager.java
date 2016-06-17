@@ -1,6 +1,8 @@
 package com.siddhant.routine.utilities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.siddhant.routine.classes.Course;
@@ -50,7 +52,18 @@ public class DataManager {
     }
 
     public void deleteCourse(UUID uuid) {
-        courseList.remove(getCourse(uuid));
+        Course course = getCourse(uuid);
+        courseList.remove(course);
+
+        SharedPreferences prefs  = ((Activity)appContext).getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String suggestedId = prefs.getString("suggestedCourse", "");
+        if(course.getCourseId().equals(UUID.fromString(suggestedId))) {
+            editor.putString("suggestedCourse", "");
+            editor.putString("suggestedModule", "");
+            editor.apply();
+        }
     }
 
     public void updateCourse(UUID uuid, Course newCourse) {

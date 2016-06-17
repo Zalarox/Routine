@@ -7,6 +7,8 @@ import com.siddhant.routine.classes.Module;
 import com.siddhant.routine.classes.Project;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -35,7 +37,7 @@ public class SuggestionManager {
         ArrayList<Course> notDone = new ArrayList<>();
 
         for(Course courseIte : courseList) {
-            if(courseIte.getCourseProgress() != 1.00) {
+            if(courseIte.getCourseProgress() != 1.00 && !courseIte.getCourseModules().isEmpty()) {
                 notDone.add(courseIte);
             }
         }
@@ -45,7 +47,9 @@ public class SuggestionManager {
         }
 
         Random r = new Random();
-        course = notDone.get(r.nextInt(notDone.size()));
+        if(!notDone.isEmpty())
+            course = notDone.get(r.nextInt(notDone.size()));
+
         notDone.clear();
         return course;
     }
@@ -82,12 +86,30 @@ public class SuggestionManager {
         return module;
     }
 
-    public Project getProjectSuggestion() {
-        Project project = null;
+    public Project getProjectSuggestion(Project project) {
         ArrayList<Project> projectList = dm.getProjectList();
-        if(!projectList.isEmpty()) {
-            project = projectList.get(0);
+        ArrayList<Project> curatedList = new ArrayList<>();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 7);
+        Date nextWeek = new Date(cal.getTimeInMillis());
+
+        for(Project projectIte : projectList) {
+            if(projectIte.getDueDate() == null || projectIte.getDueDate().before(nextWeek)) {
+                curatedList.add(projectIte);
+            }
         }
+
+        if(curatedList.contains(project)) {
+            curatedList.remove(project);
+        }
+
+        if(!curatedList.isEmpty()) {
+            project = curatedList.get(0);
+        } else {
+            project = null;
+        }
+
+        curatedList.clear();
         return project;
     }
 }
