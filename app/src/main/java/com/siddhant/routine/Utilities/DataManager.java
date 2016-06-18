@@ -10,6 +10,8 @@ import com.siddhant.routine.classes.Project;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -33,7 +35,7 @@ public class DataManager {
 
     public static DataManager getInstance(Context c) {
         if(dataManager == null) {
-            dataManager = new DataManager(c.getApplicationContext());
+            dataManager = new DataManager(c);
         }
         return dataManager;
     }
@@ -124,6 +126,25 @@ public class DataManager {
 
     public int getProjectListSize() {
         return projectList.size();
+    }
+
+    public int getProjectsThisWeek() {
+        int total=0;
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 7);
+
+        for(Project project: projectList) {
+            if(project.getDueDate() == null) {
+                total++;
+            } else {
+                if (project.getDueDate().before(new Date(cal.getTimeInMillis()))) {
+                    total++;
+                }
+            }
+        }
+
+        return total;
     }
 
     public void updateProject(UUID uuid, Project newProject) {

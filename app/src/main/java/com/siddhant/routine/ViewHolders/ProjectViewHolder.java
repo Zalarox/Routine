@@ -103,6 +103,7 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder implements View.O
             }
         });
         update.setOnClickListener(this);
+        fm = ((AppCompatActivity)context).getSupportFragmentManager();
     }
 
     public void bindProject(Project project) {

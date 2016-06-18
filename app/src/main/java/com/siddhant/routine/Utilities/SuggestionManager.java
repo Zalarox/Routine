@@ -19,6 +19,7 @@ public class SuggestionManager {
     static SuggestionManager suggestionManager;
     Context appContext;
     DataManager dm;
+    int currentMod, currentProj;
 
     private SuggestionManager(Context appContext) {
         this.appContext = appContext;
@@ -75,11 +76,11 @@ public class SuggestionManager {
                 }
             }
 
-            if(notDone.contains(module))
-                notDone.remove(module);
-
             if(!notDone.isEmpty())
-                module = notDone.get(0);
+                module = notDone.get(currentMod++);
+
+            if(currentMod > notDone.size()-1)
+                currentMod = 0;
         }
 
         notDone.clear();

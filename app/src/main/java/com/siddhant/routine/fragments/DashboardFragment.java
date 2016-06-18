@@ -117,8 +117,9 @@ public class DashboardFragment extends Fragment {
     public void bindProjectCard() {
         if(project != null) {
             projectViewHolder.bindProject(project);
+            int totalThisWeek = dm.getProjectsThisWeek();
             suggestedProjectHint.setText(Html.fromHtml(getString(R.string.dashboard_assignment_text,
-                totalProjects, totalProjects)));
+                totalThisWeek, totalProjects)));
         } else {
             setNoProjects();
         }
