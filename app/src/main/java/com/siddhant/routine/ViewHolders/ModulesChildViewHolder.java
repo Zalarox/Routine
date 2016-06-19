@@ -82,6 +82,11 @@ public class ModulesChildViewHolder extends ChildViewHolder {
                     if (TextUtils.isEmpty(childTopic.getText()) && topicList.size() != 1) {
                         adapter.removeTopicChild(moduleId, topicList.indexOf(topic));
                     }
+                } else {
+                    int index = topicList.indexOf(topic);
+                    if((index == topicList.size() - 1) && !TextUtils.isEmpty(childTopic.getText())) {
+                        adapter.addTopicChild(moduleId, topicList.size());
+                    }
                 }
             }
         });

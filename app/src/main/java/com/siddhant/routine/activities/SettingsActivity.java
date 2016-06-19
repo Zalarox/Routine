@@ -54,8 +54,8 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.app_preferences);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                getPreferenceScreen().findPreference("transition").setEnabled(false);
-                getPreferenceScreen().findPreference("transition").
+                getPreferenceScreen().findPreference("transitions").setEnabled(false);
+                getPreferenceScreen().findPreference("transitions").
                         setSummary("Only available on Lollipop+ devices.");
             }
 

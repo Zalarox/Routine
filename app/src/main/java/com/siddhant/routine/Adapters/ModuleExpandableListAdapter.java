@@ -3,6 +3,7 @@ package com.siddhant.routine.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -68,11 +69,21 @@ public class ModuleExpandableListAdapter extends ExpandableRecyclerAdapter<Modul
         }
     }
 
-    public void removeTopicChild(UUID moduleId, int position) {
-        for(Module m : moduleList) {
-            if(m.getModuleId().equals(moduleId)) {
-                m.removeTopic(position);
-                notifyChildItemRemoved(moduleList.indexOf(m), position);
+    public void removeTopicChild(UUID moduleId, final int position) {
+        if(position != -1) {
+            for (final Module m : moduleList) {
+                if (m.getModuleId().equals(moduleId)) {
+                    m.removeTopic(position);
+                    Handler handler = new Handler();
+
+                    final Runnable r = new Runnable() {
+                        public void run() {
+                            notifyChildItemRemoved(moduleList.indexOf(m), position);
+                        }
+                    };
+
+                    handler.post(r);
+                }
             }
         }
     }

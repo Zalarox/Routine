@@ -94,20 +94,18 @@ public class SuggestionManager {
         cal.add(Calendar.DAY_OF_MONTH, 7);
         Date nextWeek = new Date(cal.getTimeInMillis());
 
-        for(Project projectIte : projectList) {
-            if(projectIte.getDueDate() == null || projectIte.getDueDate().before(nextWeek)) {
-                curatedList.add(projectIte);
+        if(!projectList.isEmpty()) {
+            for (Project projectIte : projectList) {
+                if (projectIte.getDueDate() == null || projectIte.getDueDate().before(nextWeek)) {
+                    curatedList.add(projectIte);
+                }
             }
-        }
 
-        if(curatedList.contains(project)) {
-            curatedList.remove(project);
-        }
+            if(!curatedList.isEmpty())
+                project = curatedList.get(currentProj++);
 
-        if(!curatedList.isEmpty()) {
-            project = curatedList.get(0);
-        } else {
-            project = null;
+            if(currentProj > curatedList.size()-1)
+                currentProj = 0;
         }
 
         curatedList.clear();

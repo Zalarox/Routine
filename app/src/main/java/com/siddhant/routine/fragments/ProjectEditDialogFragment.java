@@ -2,12 +2,18 @@ package com.siddhant.routine.fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.siddhant.routine.R;
@@ -85,14 +92,27 @@ public class ProjectEditDialogFragment extends DialogFragment {
         callback.OnProjectDialogClose();
     }
 
+    @NonNull
     @Override
-    public void onResume() {
-        super.onResume();
-        getDialog().setTitle("Project Information");
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        RelativeLayout root = new RelativeLayout(getActivity());
+        root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setTitle("Project Information");
+
+        if((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+
+        dialog.setContentView(root);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        getDialog().getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        double height = displayMetrics.heightPixels/1.5f;
-        getDialog().getWindow().setLayout(displayMetrics.widthPixels, (int) height);
+        dialog.getWindow().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        double height = displayMetrics.heightPixels / 1.5f;
+        dialog.getWindow().setLayout(displayMetrics.widthPixels, (int) height);
+        return dialog;
     }
 
     @Override
@@ -145,7 +165,7 @@ public class ProjectEditDialogFragment extends DialogFragment {
                         new DateSetListener(), calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-                datePicker.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis());
+                datePicker.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis()-1000);
                 datePicker.show();
             }
         });

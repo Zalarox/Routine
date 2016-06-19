@@ -3,6 +3,7 @@ package com.siddhant.routine.viewholders;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
@@ -68,8 +69,10 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
         topicTitle.setText(topic.getTopicName());
         if(topic.isTopicDone()) {
             topicTitle.setTextColor(colorDone);
+            topicTitle.setPaintFlags(topicTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             topicTitle.setTextColor(colorNotDone);
+            topicTitle.setPaintFlags(topicTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
         animateProgress();
         totalTopics.setText(context.getString(R.string.module_topics, module.getDoneTopics(),
@@ -80,8 +83,10 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
     public void onClick(View v) {
         if(topic.toggleDone()) {
             topicTitle.setTextColor(colorDone);
+            topicTitle.setPaintFlags(topicTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             topicTitle.setTextColor(colorNotDone);
+            topicTitle.setPaintFlags(topicTitle.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
         animateProgress();
         totalTopics.setText(context.getString(R.string.module_topics, module.getDoneTopics(),
@@ -95,7 +100,7 @@ public class TopicViewHolder extends RecyclerView.ViewHolder implements View.OnC
             int lines = layout.getLineCount();
             if(lines > 0) {
                 int ellipsisCount = layout.getEllipsisCount(lines-1);
-                if ( ellipsisCount > 0) {
+                if (ellipsisCount > 0) {
                     Toast.makeText(context, topic.getTopicName(), Toast.LENGTH_SHORT).show();
                 }
             }
